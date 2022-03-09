@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+</head>
+<body>
+<!--
+Обязательное задание.
+
+Необходимо реализовать четыре функции, каждая функция должна принимать по два
+числа и выполнять одну из операций (каждая функция выполняет одну из них):
+1. Сложение
+2. Разность
+3. Умножение
+4. Деление
+
+Необходимо сделать так, чтобы функция вернула число, например выражение
+`console.log(sum(2, 6));` должно вывести число 8 в консоль (sum - функция
+сложения в данном примере, ваши названия функций могут отличаться).
+
+Округлять значения, которые возвращают функции не нужно, однако, обратите
+внимание на разность, функция должна вычесть из большего числа меньшее, либо
+вернуть 0, если числа равны.
+
+Функциям всегда передаются корректные числа, проверки на NaN, Infinity делать
+не нужно.
+
+Необходимо для всех функций прописать комментарии jsdoc https://jsdoc.app/.
+-->
+<script>
+  "use strict";
+
+  const a = parseFloat(prompt("введите число`a`: "));
+  const b = parseFloat(prompt("введите число`b`: "));
+
+  /** @function sum
+   Вычисляет сумму входных параметров
+   @param {number} a - число a
+   @param {number} b - число b
+   @return {number} - cумма чисел.
+   */
+  function sum(a, b) {
+    return (a + b);
+  }
+
+  /** @function diff
+   Вычисляет разность входных параметров
+   @param {number} a - число a
+   @param {number} b - число b
+   @return {number} - разность чисел.
+   */
+  function diff(a, b) {
+    return (a - b);
+  }
+
+  /** @function mul
+   Вычисляет произведение входных параметров
+   @param {number} a - число a
+   @param {number} b - число b
+   @return {number} - произведение чисел.
+   */
+  function mul(a, b) {
+    return (a * b);
+  }
+
+  /** @function div
+   Вычисляет частное входных параметров
+   @param {number} a - число a
+   @param {number} b - число b
+   @return {number} - частное чисел.
+   */
+  function div(a, b) {
+    return (a / b);
+  }
+
+  console.log(`sum: ${sum(a, b)}`);
+  console.log(`diff: ${diff(a, b)}`);
+  console.log(`mul: ${mul(a, b)}`);
+  console.log(`div: ${div(a, b)}`);
+
+</script>
+</body>
+</html>
