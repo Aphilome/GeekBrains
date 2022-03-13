@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ffWNGiouH1uPfTntKJ904INJwamOTFXU4Pd41gwtYK87HE3gIKfCKZnN7ggCr1K7Tayo99YMdLqAwJjhAwl07agBe0I0SNGryemq6IBG6x9z6EyG0sNwOXF8XG1QB4ndQZai0eepvQu-Ac86AK76YNeIxloEUZ9Et023qZAPM-fxzGnfGvx9M_Hm7xOwplumauUcTKRpNeTJnbc9WUd-zo4m3cfL6qKULF4eVJv_MtVUqRe2_tLmJ5HsUMhlrOAEqG9qvAZGZ1Jv6bNNOlycAZnT7fQpPk4lbT_cBHoZOTPoBsKyB2dtzx-lrpZJRcXfEKCFOaV2gapjhHKvqIR-B0uwsTILMhZKm1g9fPYhzChqnHxbC8fSW1KtTQda3AgfGL7_5ZskwH3qAXSSaree5oqXlbVU2fNG0gfGtvZ29qRdSSSOkc2S55kyevhciLrP_Y69v_f0yLcIzggCFPZOj41Xi2KhomRBHfIed7uhtglPSidnAdTkAfHw2ngjjgcpbPGhcwoxRmA36Cje8Z2D_Ktfp6qNnzH-dSlkS9l8VCk9JV8sn0CxirNiahFGYAcmnlPl1YGE8SJvIXJZhZ5J5CZNZTh-cT_Y8OMvXNt5oHOiDsIpf3Jz4Ut1hkcMMomXYFq-UNaEg5j9soxKUrYcU3w7xDUEIBLBlDIw3EofTiQUVwUQHMicHO6ADHBXCWPUdktUcjb2lQT7-8W_QWRIpJjhvv7-VGL58cnynG7fbdT3dgNhLEKunrfZSgQGlsMyQ-Jpw2QT_sNd27bwv4Pz3jZqtGqXzbLqKNNwRh5Fvt5CuCJF7BntonkAAIia_WRhZ2dSFizv1Y_rOBHSXuZun5t6eHELM3TLX3jeHiIT9f7d6fUy6WjNo8E4XmKmK9lZefO0074ByIaxBjDljSgnTpye4tWA3xAx_RpRvgKd7boMNp6Ny1N3Yin77705EyC4BKkt5wBHmS8_aTazFlN6IZun9vwtJX31NgyKIL1SkH82MTvsj1vEUAFmXYP4fVi4XwoSqtj_XSCwLq4ILWGxhFOfB2wtISvqqBwr4ukD0VzmEGoA7i5OqIjAFA2_bjkOm0ivCMebpy7hcCDRqw05eVCJ_wNBHB2VdNF5iZgf8RWoN0O1PqB_AUkIXtoYLJaR3UG-dH6TdG8QM4G5adl-DhOY01qzzDYjzlDjkOd0p8U" charset="UTF-8"></script></head>
+<body>
+<!--
+Обязательное задание.
+
+Необходимо данное задание выполнить в es5 стиле и в es6 стиле.
+Необходимо создать функцию-конструктор/класс для продукта.
+Названия: `ProductES5` для es5 стиля, `ProductES6` для es6 стиля.
+При создании объекта от функции-конструктора/класса необходимо передавать имя
+и цену товара, эта информация должна быть сохранена в объекте.
+Также у объекта должна быть возможность выполнить метод `make25Discount`, данный
+метод должен уменьшать стоимость продукта на 25%.
+Необходимо продемонстрировать работу с объектом (в свободной форме).
+-->
+<script>
+  "use strict";
+
+  //ES5
+  function ProductES5(productTitle, price) {
+    this.productTitle = productTitle;
+    this.price = price;
+  }
+
+  ProductES5.prototype.make25Discount = function() {
+    this.price *= 0.75;
+  };
+
+  const productES5 = new ProductES5("гречка", 150);
+  productES5.make25Discount();
+  console.log(`Цена со скидкой на ${productES5.productTitle} составляет ${productES5.price}`)
+
+//ES6
+  class ProductES6 {
+    constructor(productTitle, price) {
+      this.productTitle = productTitle;
+      this.price = price;
+    }
+    make25Discount() {
+      this.price *= 0.75;
+    }
+  }
+
+  const productES6 = new ProductES6("туалетная бумага", 100);
+  productES6.make25Discount();
+  console.log(`Цена со скидкой на ${productES6.productTitle} составляет ${productES6.price}`)
+
+</script>
+</body>
+</html>

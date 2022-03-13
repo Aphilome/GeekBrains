@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=CcKgzzIwFv3BQ2yAae9PPOOcFKM7FnpfNfsiSkRUBiEhichg8QuhaBeqTawlE-rHCWUkwJQRL_3ptReMlE9xDzgbSLqHtRQ0eR1L4DgkMIyErsMMAHA0A-1LS3mMcGSUHjPde7xPWI8IFIiF5z5M6LUC_fhhyX4brqmiuEVFWGxJB1nIZSjeU626va_V_2ycjrckvIVnQ3_8e1Rp3tw8rbwnvL77gW5nj5N1yZqHdFc8vaVniw09Hy5iLM8IHBHA1oGPLzmJx41gN52xGPIOr9hwZiLEBv-bvPOwD9FdDrylx5Ia_vlFoN8JIXrUYG97g3dp_UgOrzZecgJeTrzs6aqHsplSSrmgpEnIKgi7OIjevDVeXWxShG2-GLT6C5i6juGKeSaaLgZCA9UgQIaA_69IGX6azEevuqFNND77xGUtdDpGxq80DdBmoQk4UGZEHWctJ-d61jNzBKxPRyrtQ1j8-raGWpqCKlUg8a4qD5mLD_AAmG4TDhkgcq-IwkFLZHRZ3IkYdkrfbovytnCilLkzMkIzJP7eD1xzJB0B9Y5JhyH1miU2NNQ2aHeohGAMYrUHQfAbmyqAfy55ZDCF4hmgpXE_SGlAQM7008Phs01zw8vw2SGUgHj1S9vhD55EV1_NSZPSUp0W7Y4SaHH720y9IiZMrJAitz__Vl0B_QwMRr0X_QEL6J-fNxqdpwvO04kECFVuuM--jpw-j9YuVAc58270T9lHZGDZXjr65VmdVKI41WZdQ_WKgCnVuIax4o7LMMVg3IcNcke3Ckbzju4fCfzjgcDkzC9K2qO8M7vJ191OKUw1nmQZyNb4OELBowzncJ0mexjUiitnQs4i5cizgRFv1Sjk0hwPQRitnDWHnBTTsn34eyEWN5YVA1jaUK7AHojA_D3HHOIORfKeRF-1x6h_uvHnHAF_ujthxZHcpQ8iVgGh71Pey2RPjMyCcetgxd0vn1hXMOxO9XBUZ8E1V6awF4k5Ml8XC2K-mppHtfkNrzNzHTr0HQnTomxkFBWrtDWbyrIuZTD6Q3RZHT2Z62AnbXD2-A11EdbKUkMW272g0TJL99IOPzdJFVu1yC1yimT7zSwBhR2w8ft_85FRW07xSB_ayiyeGcmRybNOLVJVr_PzH5bgI64RvYWhtQbEdsgI6zLuS-egoLY5Ckm-mTvXFHqOeSO2urd2SVI" charset="UTF-8"></script></head>
+<body>
+<!--
+Обязательное задание.
+
+Необходимо данное задание выполнить в es5 стиле и в es6 стиле.
+Необходимо создать функцию-конструктор/класс для поста в социальной сети.
+Названия: `PostES5` для es5 стиля и `PostES6` для es6 стиля.
+Пост должен хранить:
+1. Автора поста (имени достаточно).
+2. Текст поста.
+3. Дату и время последнего изменения поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Каждому экземпляру объекта должен быть доступен метод `edit`, который будет
+менять текст поста.
+
+---
+
+Необходимо создать функцию-конструктор/класс для закрепленного поста в
+социальной сети.
+Названия: `AttachedPostES5` для es5 стиля и `AttachedPostES6` для es6 стиля.
+Закрепленный пост должен наследоваться от обычного поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Закрепленный пост должен иметь свойство `highlighted`, в котором по умолчанию
+будет лежать значение false (это свойство будет обозначать, будет ли наш
+закрепленный пост подсвечен).
+У экземпляров объекта закрепленного поста должен быть метод с названием
+`makeTextHighlighted`, который сделает так, чтобы наш пост стал подсвеченным
+(будет менять свойство `highlighted`).
+
+---
+
+Подсказки:
+1. Задание сложное, советую делать по аналогии с примером на онлайн-занятии.
+2. Обратите внимание что пост хранит "дату и время последнего изменения
+поста", это значит что если пост кто-то изменит (например вызовет какой-то
+метод, который изменит что-то в посте), дата и время последнего изменения
+поста также должна измениться.
+3. Выполняйте все по порядку, не стоит пытаться сделать все сразу, иначе можно
+что-нибудь пропустить.
+4. Если непонятно условие - задайте вопрос.
+-->
+<script>
+  "use strict";
+
+  //ES5
+  function PostES5(authorName, text) {
+    this.authorName = authorName;
+    this.text = text;
+    this.lastUpdate = new Date();
+  }
+
+  PostES5.prototype.change = function(text) {
+    this.text = text;
+    this.lastUpdate = new Date();
+  };
+
+  const postES5 = new PostES5("Aura", "textES5");
+  console.log(`Старый текст поста ${postES5.text}`);
+  postES5.change("new textES5");
+  console.log(`Новый текст поста ${postES5.text}`);
+
+  function AttachedPostES5(authorName, text) {
+    PostES5.call(this, authorName, text);
+    this.highlighted = false;
+  }
+  AttachedPostES5.prototype = Object.create(PostES5.prototype);
+  AttachedPostES5.prototype.constructor = AttachedPostES5;
+  AttachedPostES5.prototype.makeTextHighlighted = function () {
+    this.highlighted = true;
+    this.lastUpdate = new Date();
+  };
+
+  const attachedES5 = new AttachedPostES5("Aura", "textES5");
+  console.log(`Старый текст поста ${attachedES5}`);
+  attachedES5.makeTextHighlighted();
+  attachedES5.change("new textES5");
+  console.log(`Новый текст поста ${postES5.text}`);
+
+  //ES6
+  class PostES6 {
+    constructor(authorName, text) {
+      this.authorName = authorName;
+      this.text = text;
+      this.lastUpdate = new Date();
+    }
+
+    change(text) {
+      this.text = text;
+      this.lastUpdate = new Date();
+    }
+  }
+
+  const postES6 = new PostES6("Aura", "textES6");
+  console.log(`Старый текст поста ${postES6.text}`);
+  postES6.change("new textES6");
+  console.log(`Новый текст поста ${postES6.text}`);
+
+  class AttachedPostES6 extends PostES6 {
+    highlighted = false;
+
+    makeTextHighlighted() {
+      this.highlighted = true;
+      this.lastUpdate = new Date();
+    }
+  }
+
+  const attachedES6 = new AttachedPostES5("Aura", "textES5");
+  console.log(`Старый текст поста ${attachedES6}`);
+  attachedES6.makeTextHighlighted();
+  attachedES6.change("new textES6");
+  console.log(`Новый текст поста ${postES6.text}`);
+
+</script>
+</body>
+</html>
