@@ -54,17 +54,17 @@
   function PostES5(authorName, text) {
     this.authorName = authorName;
     this.text = text;
-    this.lastUpdate = new Date();
+    this.lastUpdateDateTime = new Date();
   }
 
-  PostES5.prototype.change = function(text) {
+  PostES5.prototype.edit = function(text) {
     this.text = text;
-    this.lastUpdate = new Date();
+    this.lastUpdateDateTime = new Date();
   };
 
   const postES5 = new PostES5("Aura", "textES5");
   console.log(`Старый текст поста ${postES5.text}`);
-  postES5.change("new textES5");
+  postES5.edit("new textES5");
   console.log(`Новый текст поста ${postES5.text}`);
 
   function AttachedPostES5(authorName, text) {
@@ -75,13 +75,13 @@
   AttachedPostES5.prototype.constructor = AttachedPostES5;
   AttachedPostES5.prototype.makeTextHighlighted = function () {
     this.highlighted = true;
-    this.lastUpdate = new Date();
+    this.lastUpdateDateTime = new Date();
   };
 
   const attachedES5 = new AttachedPostES5("Aura", "textES5");
   console.log(`Старый текст поста ${attachedES5}`);
   attachedES5.makeTextHighlighted();
-  attachedES5.change("new textES5");
+  attachedES5.edit("new textES5");
   console.log(`Новый текст поста ${postES5.text}`);
 
   //ES6
@@ -89,12 +89,12 @@
     constructor(authorName, text) {
       this.authorName = authorName;
       this.text = text;
-      this.lastUpdate = new Date();
+      this.lastUpdateDateTime = new Date();
     }
 
     change(text) {
       this.text = text;
-      this.lastUpdate = new Date();
+      this.lastUpdateDateTime = new Date();
     }
   }
 
@@ -108,14 +108,14 @@
 
     makeTextHighlighted() {
       this.highlighted = true;
-      this.lastUpdate = new Date();
+      this.lastUpdateDateTime = new Date();
     }
   }
 
   const attachedES6 = new AttachedPostES5("Aura", "textES5");
   console.log(`Старый текст поста ${attachedES6}`);
   attachedES6.makeTextHighlighted();
-  attachedES6.change("new textES6");
+  attachedES6.edit("new textES6");
   console.log(`Новый текст поста ${postES6.text}`);
 
 </script>
