@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=4gkYovunLWDoa-k_4ieVCUVtNPjSYTUK5En-9pTJvBwMLJ-0406wFrNVZc2XcI7MyUCeKHwNnhoqBEdMH-E4I3VsKkZM-H6SJhxXHdcJgP9iowkWUM7ZBJm2mWhe-TKVJiSap6kFgDwNe5mvbZbnb4Wxb3lFPeq1RWLJV7PmVckVKKBDjk3w7j6AjE4tA-HpGQEG2I8RuuPluX5JHFWBGkSuk1w88IJDGwhq9qePN2xa47eX55N2dgsJn6iOcoZGXE4fSfYZ9NsmefWP41WAaTvm16TE6g5YW6qxCI58DW9ib1HV1wEdechL7TeLolSoEdFAe7pX4UEhyVHkmadYtQn3LgXSaEC1AUsQLwnX3TaG-0IWCPYacISrSz-UBHRbQmHb0W8gXirFqwKUQ5J3XmywREpmPO5S6L7lPwQi1wYas8He_qcihFaDhEkM7167c3TIBgcUZi1UWq_DU6p9lFArLCFgh1fXmGNiTuDjJQwkEK0LWNWPaXqGLNoa_jryV3JnxrCepqNXl9VRBPin3lDRTOdoL7iQr4b30xDKc2VKGlh24l1b_Qd9f6TITG0R2QVMZLfRx_Sy0nB4H0k9q0s8AeoPx83qMoBKE2kgI4vxmfoIqcNJYL-48idGsSr0OVBl_EBZbNYa7-DLqrClKtkbPSXyra0DlxIMMaL65YPp2ZwHEZBZj-4w_UAfWsDeQlZVk6MunqvzDiZqrE_uFGUQR9y8UbQBE3EI3yd7txHKXJDsk3v01SAlW2NJQ7D9moV8qSsHppAD2zAZQ8HLD9tKF1YsB26O2wTcw9wMhMyhxGlCoK3TclPYXx2X9Qd61isH-CRfXYt1PilBalp35MPmX9YDLBHeGY369zmE6Wn2daO41myqvz7wXOivVQomXcNLKTVlvRyzW9Yqvn52GhJb0hVouXgEkUIdRBIT9sI93qsbgYZjkx8vB4XvUbi-wI6JKJ7obO4zydCpetC-z-wp9AZzkhwCvTdH-pGHrk8Aa_xT2rKYG-9v4XyPmXvk21XGxHk5XyKvGBJGjt6TMcI2CsK6Xm7B6Iyaian57t5z-4YGZUROx2qHCggk0DbQqaTYOoOq5eU_1T1HmNeEF9pk-pYEmQd5m27t9YPsaQs54QVMjGNNNogM8gQSP2Juby5cFBzbevmDwdCXLW5FAN0xMiRAojIXYyXz5fDmIWc" charset="UTF-8"></script></head>
+<body>
+<!--
+Обязательное задание.
+
+Выполнить все задачи в теге script. Комментарии, в которых написаны задачи, не
+стирать, код с решением задачи пишем под комментарием.
+-->
+
+<p class="dropdown">Привет :)</p>
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+    Dropdown button
+  </button>
+  <div class="menu dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#">Action</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+</div>
+
+<script>
+  "use strict";
+
+  /*
+  1. Ко всем элементам, имеющим класс "dropdown-item" добавить еще один класс
+  "super-dropdown", необходимо использовать методы forEach и querySelectorAll и
+  свойство classList у элементов.
+   */
+
+  document
+          .querySelectorAll('.dropdown-item')
+          .forEach(el => el.classList.add('super-dropdown'));
+
+  /*
+  2. У элемента с классом btn необходимо убрать класс "btn-secondary", если он
+  присутствует у этого элемента, либо добавить, если такого класса у элемента
+  не было.
+   */
+
+  document.querySelector('.btn').classList.toggle('btn-secondary');
+
+  /*
+  3. Необходимо удалить класс "dropdown-menu" у элемента, у которого
+  присутствует класс "menu".
+   */
+
+  document.querySelector('.menu').classList.remove('dropdown-menu');
+
+  /*
+  4. Используя метод insertAdjacentHTML добавьте после div'a с классом
+  "dropdown" следующую разметку:
+    <a href="#">link</a>
+   */
+
+  document
+          .querySelector('div.dropdown')
+          .insertAdjacentHTML('afterend', '<a href="#">link</a>');
+
+  /*
+  5. У элемента с id "dropdownMenuButton" замените id на "superDropdown".
+   */
+
+  document.getElementById('dropdownMenuButton').id = 'superDropdown';
+
+  /*
+  6. Добавьте атрибут data-dd со значением 3 элементу у которого существует
+  атрибут "aria-labelledby" равный "dropdownMenuButton" используя dataset.
+   */
+
+  document
+          .querySelector('[aria-labelledby="dropdownMenuButton"]')
+          .dataset
+          .dd = "3";
+
+  /*
+  7. Удалите атрибут type у элемента с классом "dropdown-toggle".
+   */
+
+  document.querySelector('.dropdown-toggle').removeAttribute('type');
+
+  /*
+  8. Выведите в консоль все имеющиеся атрибуты и их значения тега у которого
+  есть все два класса btn и dropdown-toggle.
+  Вывод каждого атрибута и значений должен выглядеть следующим образом (пример):
+  Атрибут "class" содержит значение "btn btn-secondary dropdown-toggle"
+   */
+
+  const attributes = document
+          .querySelector('.btn.dropdown-toggle')
+          .attributes;
+
+  for (const attribute of attributes) {
+    console.log(`Атрибут "${attribute.name}" содержит значение "${attribute.value}"`);
+  }
+
+</script>
+</body>
+</html>
