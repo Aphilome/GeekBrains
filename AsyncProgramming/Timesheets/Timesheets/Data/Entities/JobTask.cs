@@ -15,6 +15,11 @@ namespace Timesheets.Data.Entities
         public DateTime CreatedDate { get; set; }
 
         /// <summary>
+        /// Дата создания
+        /// </summary>
+        public DateTime StartDate { get; set; }
+
+        /// <summary>
         /// Статус
         /// </summary>
         public JobTaskStatusEnum Status { get; set; }
@@ -33,6 +38,11 @@ namespace Timesheets.Data.Entities
         /// Затраченное время
         /// </summary>
         public decimal SpendTime { get; set; }
+
+        /// <summary>
+        /// Стоимость
+        /// </summary>
+        public decimal Pay { get; set; }
 
         /// <summary>
         /// Работник
