@@ -15,4 +15,16 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Services\" />
+    <None Remove="Services\Abstracts\" />
+    <None Remove="Services\Concrete\" />
+    <None Remove="Data\Dto\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Services\Abstracts\" />
+    <Folder Include="Services\Concrete\" />
+    <Folder Include="Data\Dto\" />
+  </ItemGroup>
 </Project>
