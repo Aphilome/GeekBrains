@@ -1,4 +1,6 @@
 ﻿using System;
+using Timesheets.Data.Enums;
+
 namespace Timesheets.Data.Dto
 {
     public class ContractDto

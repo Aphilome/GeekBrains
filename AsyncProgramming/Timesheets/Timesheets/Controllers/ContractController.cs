@@ -1,40 +1,52 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Timesheets.Data.Dto;
+using Timesheets.Services.Abstracts;
 
 namespace Timesheets.Controllers
 {
     [Route("api/contracts")]
     public class ContractController : Controller
     {
-        [HttpPost("create")]
-        public IActionResult Create()
+        private readonly IContractService _contractService;
+
+        public ContractController(IContractService contractService)
         {
-            
-            return null;
+            _contractService = contractService;
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> Create()
+        {
+            var newContract = await _contractService.Create();
+            return Ok(newContract);
         }
 
         [HttpGet("get/{id}")]
-        public IActionResult Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-
+            var contract = await _contractService.Get(id);
+            return Ok(contract);
         }
 
         [HttpGet("get-all")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-
+            var contracts = await _contractService.GetAll();
+            return Ok(contracts);
         }
 
         [HttpPut("update/{id}")]
-        public IActionResult Update(long id, [FromBody]ContractDto contractDto)
+        public async Task<IActionResult> Update(long id, [FromBody]ContractDto contractDto)
         {
-
+            await _contractService.Update(id, contractDto);
+            return Ok();
         }
 
         [HttpDelete("delete/{id}")]
-        public IActionResult Remove(long id)
+        public async Task<IActionResult> Remove(long id)
         {
-
+            await _contractService.Remove(id);
+            return Ok();
         }
     }
 }
