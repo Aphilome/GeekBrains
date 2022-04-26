@@ -11,7 +11,7 @@ namespace Timesheets.Services.Abstracts
 
         Task<ICollection<Contract>> GetAll();
 
-        Task Update(long id, ContractDto contractDto);
+        Task Update(long id, Contract contractNew);
 
         Task Remove(long id);
     }

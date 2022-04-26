@@ -5,10 +5,8 @@ namespace Timesheets.Data.Entities
     /// <summary>
     /// Задача
     /// </summary>
-    public class JobTask
+    public class JobTask : BaseEntity
     {
-        public long Id { get; set; }
-
         /// <summary>
         /// Дата создания
         /// </summary>

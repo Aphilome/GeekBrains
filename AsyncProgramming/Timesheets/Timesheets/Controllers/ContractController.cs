@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Timesheets.Data.Dto;
+using Timesheets.Data.Entities;
 using Timesheets.Services.Abstracts;
 
 namespace Timesheets.Controllers
@@ -36,9 +37,9 @@ namespace Timesheets.Controllers
         }
 
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> Update(long id, [FromBody]ContractDto contractDto)
+        public async Task<IActionResult> Update(long id, [FromBody]Contract contractNew)
         {
-            await _contractService.Update(id, contractDto);
+            await _contractService.Update(id, contractNew);
             return Ok();
         }
 

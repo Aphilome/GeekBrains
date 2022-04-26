@@ -5,10 +5,8 @@ namespace Timesheets.Data.Entities
     /// <summary>
     /// Счет
     /// </summary>
-    public class Invoice
+    public class Invoice : BaseEntity
     {
-        public long Id { get; set; }
-
         /// <summary>
         /// Дата создания
         /// </summary>

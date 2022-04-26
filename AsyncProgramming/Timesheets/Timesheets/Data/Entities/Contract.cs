@@ -5,10 +5,8 @@ namespace Timesheets.Data.Entities
     /// <summary>
     /// Договор
     /// </summary>
-    public class Contract
+    public class Contract : BaseEntity
     {
-        public long Id { get; set; }
-
         /// <summary>
         /// Номер договора
         /// </summary>

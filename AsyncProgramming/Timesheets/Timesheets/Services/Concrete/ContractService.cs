@@ -6,29 +6,36 @@ namespace Timesheets.Services.Concrete
 {
     public class ContractService : IContractService
     {
+        private readonly IRepository _repository;
+
+        public ContractService(IRepository repository)
+        {
+            _repository = repository;
+        }
+
         public async Task<Contract> Create()
         {
-            return new Contract();
+            return await _repository.Create<Contract>();
         }
 
         public async Task<Contract> Get(long id)
         {
-            throw new NotImplementedException();
+            return await _repository.Get<Contract>(id);
         }
 
         public async Task<ICollection<Contract>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _repository.GetAll<Contract>();
         }
 
         public async Task Remove(long id)
         {
-            throw new NotImplementedException();
+            await _repository.Remove<Contract>(id);
         }
 
-        public async Task Update(long id, ContractDto contractDto)
+        public async Task Update(long id, Contract contractNew)
         {
-            throw new NotImplementedException();
+            await _repository.Update<Contract>(id, contractNew);
         }
     }
 }
