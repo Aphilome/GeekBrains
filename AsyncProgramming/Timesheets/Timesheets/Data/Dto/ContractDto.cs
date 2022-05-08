@@ -1,12 +1,12 @@
-﻿using Timesheets.Data.Enums;
+﻿using System;
+using Timesheets.Data.Enums;
 
-namespace Timesheets.Data.Entities
+namespace Timesheets.Data.Dto
 {
-    /// <summary>
-    /// Договор
-    /// </summary>
-    public class Contract : BaseEntity
+    public class ContractDto
     {
+        public long Id { get; set; }
+
         /// <summary>
         /// Номер договора
         /// </summary>
@@ -16,7 +16,7 @@ namespace Timesheets.Data.Entities
         /// Дата создания
         /// </summary>
         public DateTime CreatedDate { get; set; }
-        
+
         /// <summary>
         /// Дата подписания
         /// </summary>
@@ -26,15 +26,5 @@ namespace Timesheets.Data.Entities
         /// Статус
         /// </summary>
         public ContractStatusEnum Status { get; set; }
-
-        /// <summary>
-        /// Высавляемый счет
-        /// </summary>
-        public Invoice Invoice { get; set; }
-
-        /// <summary>
-        /// Задачи в рамках договора
-        /// </summary>
-        public ICollection<JobTask> Tasks { get; set;}
     }
 }

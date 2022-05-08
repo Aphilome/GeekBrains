@@ -3,10 +3,8 @@
     /// <summary>
     /// Клиент
     /// </summary>
-    public class Client
+    public class Client : BaseEntity
     {
-        public long Id { get; set; }
-
         /// <summary>
         /// Имя клиента
         /// </summary>

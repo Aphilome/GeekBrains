@@ -5,10 +5,8 @@ namespace Timesheets.Data.Entities
     /// <summary>
     /// Работник
     /// </summary>
-    public class Employee
+    public class Employee : BaseEntity
     {
-        public long Id { get; set; }
-
         /// <summary>
         /// Имя работника
         /// </summary>
