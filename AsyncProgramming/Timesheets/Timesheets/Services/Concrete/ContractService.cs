@@ -1,4 +1,5 @@
-﻿using Timesheets.Data.Dto;
+﻿using System.Collections.Generic;
+using Timesheets.Data.Dto;
 using Timesheets.Data.Entities;
 using Timesheets.Services.Abstracts;
 
@@ -13,29 +14,31 @@ namespace Timesheets.Services.Concrete
             _repository = repository;
         }
 
-        public async Task<Contract> Create()
+        public async Task<Contract> CreateAsync()
         {
-            return await _repository.Create<Contract>();
+            var contract = new Contract();
+            await _repository.AddAsync<Contract>(contract);
+            return contract;
         }
 
-        public async Task<Contract> Get(long id)
+        public async Task<Contract?> GetAsync(long id)
         {
-            return await _repository.Get<Contract>(id);
+            return await _repository.GetAsync<Contract>(id);
         }
 
-        public async Task<ICollection<Contract>> GetAll()
+        public async Task<IReadOnlyCollection<Contract>> GetAllAsync()
         {
-            return await _repository.GetAll<Contract>();
+            return await _repository.GetAllAsync<Contract>();
         }
 
-        public async Task Remove(long id)
+        public async Task RemoveAsync(long id)
         {
-            await _repository.Remove<Contract>(id);
+            await _repository.RemoveAsync<Contract>(id);
         }
 
-        public async Task Update(long id, Contract contractNew)
+        public async Task UpdateAsync(long id, Contract contractNew)
         {
-            await _repository.Update<Contract>(id, contractNew);
+            await _repository.UpdateAsync<Contract>(id, contractNew);
         }
     }
 }

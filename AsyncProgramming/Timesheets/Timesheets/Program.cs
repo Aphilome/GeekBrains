@@ -8,17 +8,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<TimesheetsDbContext>(options =>
+    options.UseSqlite(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<TimesheetsDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IContractService, ContractService>();
-builder.Services.AddSingleton<IRepository, Repository>();
+builder.Services.AddScoped<IContractService, ContractService>();
+builder.Services.AddScoped<IRepository, Repository>();
+//builder.Services.AddSingleton<TimesheetsDbContext>();
 
 var app = builder.Build();
 

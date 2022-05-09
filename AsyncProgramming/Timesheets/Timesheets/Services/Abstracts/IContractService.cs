@@ -1,18 +1,17 @@
-﻿using Timesheets.Data.Dto;
-using Timesheets.Data.Entities;
+﻿using Timesheets.Data.Entities;
 
 namespace Timesheets.Services.Abstracts
 {
     public interface IContractService
     {
-        Task<Contract> Create();
+        Task<Contract> CreateAsync();
 
-        Task<Contract> Get(long id);
+        Task<Contract?> GetAsync(long id);
 
-        Task<ICollection<Contract>> GetAll();
+        Task<IReadOnlyCollection<Contract>> GetAllAsync();
 
-        Task Update(long id, Contract contractNew);
+        Task UpdateAsync(long id, Contract contractNew);
 
-        Task Remove(long id);
+        Task RemoveAsync(long id);
     }
 }
