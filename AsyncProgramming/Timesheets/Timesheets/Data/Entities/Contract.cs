@@ -1,4 +1,5 @@
-﻿using Timesheets.Data.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Timesheets.Data.Enums;
 
 namespace Timesheets.Data.Entities
 {
@@ -27,14 +28,17 @@ namespace Timesheets.Data.Entities
         /// </summary>
         public ContractStatusEnum Status { get; set; }
 
+        public long? InvoiceId { get; set; }
+
         /// <summary>
         /// Высавляемый счет
         /// </summary>
-        public Invoice Invoice { get; set; }
+        [ForeignKey(nameof(InvoiceId))]
+        public Invoice? Invoice { get; set; }
 
         /// <summary>
         /// Задачи в рамках договора
         /// </summary>
-        public ICollection<JobTask> Tasks { get; set;}
+        public ICollection<JobTask>? Tasks { get; set;}
     }
 }

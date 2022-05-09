@@ -1,4 +1,5 @@
-﻿using Timesheets.Data.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Timesheets.Data.Enums;
 
 namespace Timesheets.Data.Entities
 {
@@ -42,14 +43,20 @@ namespace Timesheets.Data.Entities
         /// </summary>
         public decimal Pay { get; set; }
 
+        public long EmployeeId { get; set; }
+
         /// <summary>
         /// Работник
         /// </summary>
+        [ForeignKey(nameof(EmployeeId))]
         public Employee Employee { get; set; }
+
+        public long ContractId { get; set; }
 
         /// <summary>
         /// Договор
         /// </summary>
+        [ForeignKey(nameof(ContractId))]
         public Contract Contract { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Timesheets.Data.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Timesheets.Data.Entities
 {
     /// <summary>
     /// Клиент
@@ -10,9 +12,12 @@
         /// </summary>
         public string Name { get; set; }
 
+        public long? InvoiceId { get; set; }
+
         /// <summary>
         /// Выставленный счет
         /// </summary>
-        public Invoice Invoice { get; set; }
+        [ForeignKey(nameof(InvoiceId))]
+        public Invoice? Invoice { get; set; }
     }
 }

@@ -41,6 +41,12 @@ else
     app.UseHsts();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<TimesheetsDbContext>();
+    dataContext.Database.Migrate();
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
