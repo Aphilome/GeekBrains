@@ -1,9 +1,11 @@
-﻿using IdentityModel.Client;
+﻿using Timesheets.Models.Identity;
 
 namespace Timesheets.Services.Abstracts
 {
     public interface IIdentityService
     {
-        string Authenticate(string user, string password);
+        TokenResponse? Authenticate(string user, string password);
+
+        string RefreshToken(string? token);
     }
 }

@@ -1,8 +1,8 @@
-﻿using IdentityModel.Client;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Timesheets.Models.Identity;
 using Timesheets.Services.Abstracts;
 
 namespace Timesheets.Services.Concrete
@@ -11,30 +11,50 @@ namespace Timesheets.Services.Concrete
     {
         public const string SecretCode = "THIS IS SOME VERY SECRET STRING!!! Im blue da ba dee da ba di da ba dee da ba di da d ba dee da ba di da badee";
 
-        private IDictionary<string, string> _users = new Dictionary<string, string>()
+        private IDictionary<string, AuthResponse> _users = new Dictionary<string, AuthResponse>()
         {
-            {"test", "test"}
+            { "test", new AuthResponse() { Password = "test" } }
         };
 
-        public string Authenticate(string user, string password)
+
+        public TokenResponse? Authenticate(string user, string password)
         {
             if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(password))
             {
-                return string.Empty;
+                return null;
             }
+            var tokenResponse = new TokenResponse();
             int i = 0;
-            foreach (KeyValuePair<string, string> pair in _users)
+            foreach (KeyValuePair<string, AuthResponse> pair in _users)
             {
                 i++;
-                if (string.CompareOrdinal(pair.Key, user) == 0 && string.CompareOrdinal(pair.Value, password) == 0)
+                if (string.CompareOrdinal(pair.Key, user) == 0 && string.CompareOrdinal(pair.Value.Password, password) == 0)
                 {
-                    return GenerateJwtToken(i);
+                    tokenResponse.Token = GenerateJwtToken(i, 15);
+                    pair.Value.LatestRefreshToken = GenerateRefreshToken(i);
+                    tokenResponse.RefreshToken = pair.Value.LatestRefreshToken.Token;
+                    return tokenResponse;
+                }
+            }
+            return null;
+        }
+
+        public string RefreshToken(string? token)
+        {
+            int i = 0;
+            foreach (KeyValuePair<string, AuthResponse> pair in _users)
+            {
+                i++;
+                if (string.CompareOrdinal(pair.Value.LatestRefreshToken?.Token, token) == 0 && pair.Value.LatestRefreshToken?.IsExpired is false)
+                {
+                    pair.Value.LatestRefreshToken = GenerateRefreshToken(i);
+                    return pair.Value.LatestRefreshToken.Token;
                 }
             }
             return string.Empty;
         }
 
-        private string GenerateJwtToken(int id)
+        private string GenerateJwtToken(int id, int minutes)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(SecretCode);
@@ -44,11 +64,19 @@ namespace Timesheets.Services.Concrete
                 {
                     new Claim(ClaimTypes.Name, id.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Expires = DateTime.UtcNow.AddMinutes(minutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public RefreshToken GenerateRefreshToken(int id)
+        {
+            var refreshToken = new RefreshToken();
+            refreshToken.Expires = DateTime.Now.AddMinutes(360);
+            refreshToken.Token = GenerateJwtToken(id, 360);
+            return refreshToken;
         }
     }
 }
