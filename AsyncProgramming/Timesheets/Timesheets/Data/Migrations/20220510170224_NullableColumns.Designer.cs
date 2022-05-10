@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Timesheets.Data;
 
@@ -10,9 +11,10 @@ using Timesheets.Data;
 namespace Timesheets.Data.Migrations
 {
     [DbContext(typeof(TimesheetsDbContext))]
-    partial class TimesheetsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220510170224_NullableColumns")]
+    partial class NullableColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.4");
