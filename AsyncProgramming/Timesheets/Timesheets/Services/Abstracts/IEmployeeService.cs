@@ -2,7 +2,7 @@
 
 namespace Timesheets.Services.Abstracts
 {
-    public interface IContractService : IBaseService<Contract>
+    public interface IEmployeeService : IBaseService<Employee>
     {
     }
 }

@@ -18,6 +18,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IContractService, ContractService>();
+builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IRepository, Repository>();
 //builder.Services.AddSingleton<TimesheetsDbContext>();
 
