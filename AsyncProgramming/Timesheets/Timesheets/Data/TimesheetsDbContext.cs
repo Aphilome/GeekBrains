@@ -10,14 +10,14 @@ namespace Timesheets.Data
         {
         }
 
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Client>? Clients { get; set; }
 
-        public DbSet<Contract> Contracts { get; set; }
+        public DbSet<Contract>? Contracts { get; set; }
         
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Employee>? Employees { get; set; }
 
-        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<Invoice>? Invoices { get; set; }
 
-        public DbSet<JobTask> JobTasks { get; set; }
+        public DbSet<JobTask>? JobTasks { get; set; }
     }
 }
