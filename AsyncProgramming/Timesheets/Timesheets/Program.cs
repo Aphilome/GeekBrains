@@ -19,6 +19,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<IJobTaskService, JobTaskService>();
 builder.Services.AddScoped<IRepository, Repository>();
 //builder.Services.AddSingleton<TimesheetsDbContext>();
 
