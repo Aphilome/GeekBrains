@@ -25,6 +25,6 @@ namespace Timesheets.Data.Entities
         /// <summary>
         /// Задачи
         /// </summary>
-        public ICollection<JobTask> Tasks { get; set; }
+        public ICollection<JobTask>? Tasks { get; set; }
     }
 }

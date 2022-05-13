@@ -3,9 +3,9 @@ using Timesheets.Services.Abstracts;
 
 namespace Timesheets.Services.Concrete
 {
-    public class ContractService : BaseService<Contract>, IContractService
+    public class InvoiceService : BaseService<Invoice>, IInvoiceService
     {
-        public ContractService(IRepository repository)
+        public InvoiceService(IRepository repository)
             : base(repository)
         {
         }

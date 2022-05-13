@@ -4,19 +4,19 @@ namespace Timesheets.Services.Abstracts
 {
     public interface IRepository
     {
-        Task<T> Create<T>() 
-            where T : BaseEntity, new();
-
-        Task<T> Get<T>(long id)
+        Task AddAsync<T>(T entity)
             where T : BaseEntity;
 
-        Task<ICollection<T>> GetAll<T>()
+        Task<T?> GetAsync<T>(long id)
             where T : BaseEntity;
 
-        Task Remove<T>(long id)
+        Task<IReadOnlyCollection<T>> GetAllAsync<T>()
             where T : BaseEntity;
 
-        Task Update<T>(long id, T contractNew)
+        Task RemoveAsync<T>(long id)
+            where T : BaseEntity;
+
+        Task UpdateAsync<T>(long id, T contractNew)
             where T : BaseEntity;
     }
 }
