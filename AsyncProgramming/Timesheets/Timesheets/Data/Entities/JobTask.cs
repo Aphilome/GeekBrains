@@ -26,12 +26,12 @@ namespace Timesheets.Data.Entities
         /// <summary>
         /// Название задачи
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         /// <summary>
         /// Описание
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Затраченное время
@@ -43,20 +43,20 @@ namespace Timesheets.Data.Entities
         /// </summary>
         public decimal Pay { get; set; }
 
-        public long EmployeeId { get; set; }
+        public long? EmployeeId { get; set; }
 
         /// <summary>
         /// Работник
         /// </summary>
         [ForeignKey(nameof(EmployeeId))]
-        public Employee Employee { get; set; }
+        public Employee? Employee { get; set; }
 
-        public long ContractId { get; set; }
+        public long? ContractId { get; set; }
 
         /// <summary>
         /// Договор
         /// </summary>
         [ForeignKey(nameof(ContractId))]
-        public Contract Contract { get; set; }
+        public Contract? Contract { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Timesheets.Data.Entities
         /// <summary>
         /// Имя работника
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Грейд

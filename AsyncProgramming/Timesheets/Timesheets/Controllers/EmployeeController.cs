@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Timesheets.Data.Entities;
 using Timesheets.Services.Abstracts;
 
 namespace Timesheets.Controllers
 {
+    [ApiController]
+    [Authorize]
     [Route("api/employees")]
     public class EmployeeController : Controller
     {

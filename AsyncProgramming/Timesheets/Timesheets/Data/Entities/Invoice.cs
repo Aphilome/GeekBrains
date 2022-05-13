@@ -33,20 +33,20 @@ namespace Timesheets.Data.Entities
         /// </summary>
         public ulong AccauntNumber { get; set; }
 
-        public long ClientId { get; set; }
+        public long? ClientId { get; set; }
 
         /// <summary>
         /// Клиент
         /// </summary>
         [ForeignKey(nameof(ClientId))]
-        public Client Client { get; set; }
+        public Client? Client { get; set; }
 
-        public long ContractId { get; set; }
+        public long? ContractId { get; set; }
 
         /// <summary>
         /// Договор
         /// </summary>
         [ForeignKey(nameof(ContractId))]
-        public Contract Contract { get; set; }
+        public Contract? Contract { get; set; }
     }
 }

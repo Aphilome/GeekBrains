@@ -10,7 +10,7 @@ namespace Timesheets.Data.Entities
         /// <summary>
         /// Имя клиента
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public long? InvoiceId { get; set; }
 
