@@ -7,6 +7,8 @@ using System.Text;
 using Timesheets.Data;
 using Timesheets.Services.Abstracts;
 using Timesheets.Services.Concrete;
+using Timesheets.Validations.EntityValidators.Abstract;
+using Timesheets.Validations.EntityValidators.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +54,7 @@ builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IJobTaskService, JobTaskService>();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddSingleton<IIdentityService, IdentityService>();
+builder.Services.AddSingleton<IClientValidationService, ClientValidationService>();
 
 
 builder.Services.AddControllersWithViews();

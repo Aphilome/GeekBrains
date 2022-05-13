@@ -6,16 +6,21 @@ namespace Timesheets.Validations
     public abstract class FluentValidationService<T> : AbstractValidator<T>, IValidationService<T>
         where T : BaseEntity
     {
-        public IReadOnlyList<IOperationFailure> ValidateEntity(T item)
+        public IOperationResult<T> ValidateEntity(T item)
         {
-            var result = Validate(item);
-            if (result is null || result.Errors.Count == 0)
+            var validation = Validate(item);
+            var res = new OperationResult<T>()
             {
-                return ArraySegment<IOperationFailure>.Empty;
+                Result = item,
+                Failures = ArraySegment<IOperationFailure>.Empty
+            };
+            if (validation is null || validation.Errors.Count == 0)
+            {
+                return res;
             }
 
-            var failures = new List<IOperationFailure>(result.Errors.Count);
-            foreach (var error in result.Errors)
+            var failures = new List<IOperationFailure>(validation.Errors.Count);
+            foreach (var error in validation.Errors)
             {
                 failures.Add(new OperationFailure
                 {
@@ -24,7 +29,8 @@ namespace Timesheets.Validations
                     Code = error.ErrorCode
                 });
             }
-            return failures;
+            res.Failures = failures;
+            return res;
         }
     }
 }
