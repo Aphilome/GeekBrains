@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Timesheets.Data.Entities;
 using Timesheets.Services.Abstracts;
+using Timesheets.Validations.EntityValidators.Abstract;
 
 namespace Timesheets.Controllers
 {
@@ -11,10 +12,14 @@ namespace Timesheets.Controllers
     public class ContractController : Controller
     {
         private readonly IContractService _contractService;
+        private readonly IContractValidationService _contractValidationService;
 
-        public ContractController(IContractService contractService)
+        public ContractController(
+            IContractService contractService,
+            IContractValidationService contractValidationService)
         {
             _contractService = contractService;
+            _contractValidationService = contractValidationService;
         }
 
         [HttpPost("create")]
@@ -41,6 +46,12 @@ namespace Timesheets.Controllers
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]Contract contractNew)
         {
+            var validation = _contractValidationService.ValidateEntity(contractNew);
+            if (!validation.Succeed)
+            {
+                return BadRequest(validation);
+            }
+
             await _contractService.UpdateAsync(id, contractNew);
             return Ok();
         }

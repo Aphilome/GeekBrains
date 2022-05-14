@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Timesheets.Data.Entities;
 using Timesheets.Services.Abstracts;
+using Timesheets.Validations.EntityValidators.Abstract;
 
 namespace Timesheets.Controllers
 {
@@ -11,10 +12,14 @@ namespace Timesheets.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
+        private readonly IEmployeeValidationService _employeeValidationService;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(
+            IEmployeeService employeeService,
+            IEmployeeValidationService employeeValidationService)
         {
             _employeeService = employeeService;
+            _employeeValidationService = employeeValidationService;
         }
 
         [HttpPost("create")]
@@ -41,6 +46,12 @@ namespace Timesheets.Controllers
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(long id, [FromBody] Employee newEmployee)
         {
+            var validation = _employeeValidationService.ValidateEntity(newEmployee);
+            if (!validation.Succeed)
+            {
+                return BadRequest(validation);
+            }
+
             await _employeeService.UpdateAsync(id, newEmployee);
             return Ok();
         }

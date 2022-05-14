@@ -20,11 +20,6 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<TimesheetsDbContext>();
-// For Identity
-//builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-//    .AddEntityFrameworkStores<TimesheetsDbContext>()
-//    .AddDefaultTokenProviders();
-
 
 builder.Services.AddAuthentication(x =>
 {
@@ -54,7 +49,12 @@ builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IJobTaskService, JobTaskService>();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddSingleton<IIdentityService, IdentityService>();
+
 builder.Services.AddSingleton<IClientValidationService, ClientValidationService>();
+builder.Services.AddSingleton<IContractValidationService, ContractValidationService>();
+builder.Services.AddSingleton<IEmployeeValidationService, EmployeeValidationService>();
+builder.Services.AddSingleton<IInvoiceValidationService, InvoiceValidationService>();
+builder.Services.AddSingleton<IJobTaskValidationService, JobTaskValidationService>();
 
 
 builder.Services.AddControllersWithViews();
@@ -84,8 +84,6 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-
-//builder.Services.AddSingleton<TimesheetsDbContext>();
 
 var app = builder.Build();
 
