@@ -20,7 +20,7 @@ namespace Timesheets.Validations.EntityValidators.Concrete
             RuleFor(i => i.Sum)
                 .InclusiveBetween(1m, decimal.MaxValue);
 
-            RuleFor(i => i.AccauntNumber)
+            RuleFor(i => i.AccountNumber)
                 .InclusiveBetween(1ul, ulong.MaxValue);
         }
     }
