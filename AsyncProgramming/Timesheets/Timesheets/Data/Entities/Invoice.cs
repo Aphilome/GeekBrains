@@ -31,7 +31,7 @@ namespace Timesheets.Data.Entities
         /// <summary>
         /// Расчетный счет
         /// </summary>
-        public ulong AccauntNumber { get; set; }
+        public ulong AccountNumber { get; set; }
 
         public long? ClientId { get; set; }
 

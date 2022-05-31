@@ -4,6 +4,7 @@
 Debug/
 Release/
 obj/
+*.db-*
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/rider
