@@ -1,4 +1,4 @@
-﻿using Timesheets.Data.Entities;
+﻿using Timesheets.Data.DddInvoice;
 
 namespace Timesheets.Validations.EntityValidators.Abstract
 {

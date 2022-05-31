@@ -1,4 +1,4 @@
-﻿using Timesheets.Data.Entities;
+﻿using Timesheets.Data.DddInvoice;
 using Timesheets.Services.Abstracts;
 
 namespace Timesheets.Services.Concrete

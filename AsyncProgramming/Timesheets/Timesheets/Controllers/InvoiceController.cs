@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Timesheets.Data.Entities;
+using Timesheets.Data.DddInvoice;
 using Timesheets.Services.Abstracts;
 using Timesheets.Validations.EntityValidators.Abstract;
 

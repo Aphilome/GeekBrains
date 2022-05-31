@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Timesheets.Data.DddInvoice;
 using Timesheets.Data.Enums;
 
 namespace Timesheets.Data.Entities
