@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Timesheets.Data.Entities;
 using Timesheets.Data.Enums;
 
-namespace Timesheets.Data.Entities
+namespace Timesheets.Data.DddInvoice
 {
     /// <summary>
     /// Счет
@@ -48,5 +49,29 @@ namespace Timesheets.Data.Entities
         /// </summary>
         [ForeignKey(nameof(ContractId))]
         public Contract? Contract { get; set; }
+
+        public void Create(long contractId, decimal sum)
+        {
+            ContractId = contractId;
+            Sum = sum;
+            Status = InvoiceStatusEnum.Open;
+        }
+
+        public void SetAccaunt(ulong accountNumber)
+        {
+            AccountNumber = accountNumber;
+        }
+
+        public void SendToClient(long clientId)
+        {
+            ClientId = clientId;
+            Status = InvoiceStatusEnum.InProgress;
+        }
+
+        public void Pay()
+        {
+            PayDate = DateTime.Now;
+            Status = InvoiceStatusEnum.Closed;
+        }
     }
 }

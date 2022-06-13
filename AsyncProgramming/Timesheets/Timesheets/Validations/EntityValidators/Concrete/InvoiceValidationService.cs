@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Timesheets.Data.Entities;
+using Timesheets.Data.DddInvoice;
 using Timesheets.Validations.EntityValidators.Abstract;
 
 namespace Timesheets.Validations.EntityValidators.Concrete
