@@ -1,9 +1,10 @@
-﻿namespace Catalog.Models
+﻿using System.Collections.Concurrent;
+
+namespace Catalog.Models
 {
     public class Category
     {
-        private List<Product> _products { get; set; } = new();
-        private object _writeLock = new object();
+        private ConcurrentBag<Product> _products { get; set; } = new();
 
         public Category() { }
 
@@ -19,10 +20,7 @@
 
         public void AddNewProduct(Product product)
         {
-            lock(_writeLock)
-            {
-                _products.Add(product);
-            }
+            _products.Add(product);
         }
 
         public IReadOnlyCollection<Product> GetProducts()
