@@ -1,0 +1,33 @@
+﻿@model Catalog
+
+@{
+    ViewData["Title"] = "Список продуктов";
+}
+
+<ul>
+    @foreach (var category in Model.Categories)
+    {
+        <li>@category.Id - @category.Name</li>
+        <ul>
+            @foreach (var product in @category.Products)
+            {
+                <li>@product.Id - @product.Name</li>
+            }
+        </ul>
+    }
+</ul>
+
+<form method="post">
+    Id: <input type="text" name="id" required/>
+    <br>
+    Category:   <select name="categories" id="categories">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+    <br>
+    Name: <input type="text" name="name"/>
+    <br>
+    <input type="submit" name="submit" value="Создать"/>
+</form>
