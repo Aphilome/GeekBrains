@@ -4,7 +4,7 @@ namespace Catalog.Models
 {
     public class Category
     {
-        private ConcurrentBag<Product> _products { get; set; } = new();
+        private ConcurrentDictionary<long, Product> _products { get; set; } = new();
 
         public Category() { }
 
@@ -20,12 +20,17 @@ namespace Catalog.Models
 
         public void AddNewProduct(Product product)
         {
-            _products.Add(product);
+            _products[product.Id] = product;
         }
 
         public IReadOnlyCollection<Product> GetProducts()
         {
-            return _products;
+            return _products.Values.ToArray();
+        }
+
+        public void RemoveProduct(Product product)
+        {
+            _products.Remove(product.Id, out _);
         }
     }
 }
