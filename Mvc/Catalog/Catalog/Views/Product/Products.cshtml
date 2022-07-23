@@ -5,11 +5,11 @@
 }
 
 <ul>
-    @foreach (var category in Model.Categories)
+    @foreach (var category in Model.GetCategories())
     {
         <li>@category.Id - @category.Name</li>
         <ul>
-            @foreach (var product in @category.Products)
+            @foreach (var product in @category.GetProducts())
             {
                 <li>@product.Id - @product.Name</li>
             }
@@ -21,7 +21,7 @@
     Id: <input type="text" name="id" required/>
     <br>
     Category:   <select name="categories" id="categories">
-                    @foreach (var category in Model.Categories)
+                    @foreach (var category in Model.GetCategories())
                     {
                         <option value="@category.Id">@category.Name</option>
                     }

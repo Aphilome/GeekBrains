@@ -4,7 +4,7 @@
     ViewData["Title"] = "Список категорий";
 }
 
-@foreach (var category in Model.Categories)
+@foreach (var category in Model.GetCategories())
 {
     <div>@category.Id @category.Name</div>
 }

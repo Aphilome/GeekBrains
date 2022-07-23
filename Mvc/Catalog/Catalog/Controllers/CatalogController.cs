@@ -16,7 +16,7 @@ namespace Catalog.Controllers
         [HttpPost]
         public IActionResult Categories(Category category)
         {
-            _catalog.Categories.Add(category);
+            _catalog.AddCategory(category);
             return View(_catalog);
         }
     }
