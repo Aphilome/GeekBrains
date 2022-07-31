@@ -52,7 +52,14 @@ namespace Catalog.Services.Concrete
 
         public void Dispose()
         {
-            _smtpClient.Disconnect(true);   // TODO: NOT ASYNC :(
+            try
+            {
+                _smtpClient.Disconnect(true);   // TODO: NOT ASYNC :(
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "SMTP Disconnect error");
+            }
         }
 
         private void Register()
