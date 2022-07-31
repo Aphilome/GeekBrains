@@ -9,10 +9,10 @@ namespace Catalog.Services.Concrete
         private readonly SmtpClient _smtpClient;
 
         private const string    FROM_NICK       = @"mr. Catalog service";
-        private const string    FROM_MAIL       = @"asp2022gb@rodion-m.ru";
-        private const string    FROM_PSW        = @"3drtLSa1";
+        private const string    FROM_MAIL       = @"dsfgsedrgts4seaw4esrgsdrfg";
+        private const string    FROM_PSW        = @"trsdetrfgtfsvdgcvzsgdcvsdcv";
         private const string    TO_NICK         = @"mr. Master";
-        private const string    TO_MAIL         = @"1.katrin.1@mail.ru";
+        private const string    TO_MAIL         = @"secret@mail.ru";
         private const string    SERVER_HOST     = @"smtp.beget.com";
         private const int       SERVER_PORT     = 25;
         private const string    MAIL_SUBJECT    = @"New product in catalog";
