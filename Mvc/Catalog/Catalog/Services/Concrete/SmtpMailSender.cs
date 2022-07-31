@@ -6,7 +6,7 @@ using MimeKit;
 
 namespace Catalog.Services.Concrete
 {
-    public class SmtpMailSender : IMailSender
+    public class SmtpMailSender : IMailSender, IDisposable
     {
         private readonly SmtpClient _smtpClient;
         private readonly SmtpCredentials _smtpCredentials;
@@ -22,11 +22,15 @@ namespace Catalog.Services.Concrete
             _smtpClient = smtpClient;
             _smtpCredentials = smtpCredentials.Value;
             _logger = logger;
+
+            Register();
         }
 
         public async Task SendMail(string message, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("SMTP Send mail");
+            if (!(_smtpClient.IsAuthenticated && _smtpClient.IsSigned))
+                _logger.LogInformation("SMTP Send mail");
+
             var mime = new MimeMessage();
             mime.From.Add(new MailboxAddress(_smtpCredentials.FromNick, _smtpCredentials.FromMail));
             mime.To.Add(new MailboxAddress(_smtpCredentials.ToNick, _smtpCredentials.ToMail));
@@ -38,14 +42,29 @@ namespace Catalog.Services.Concrete
 
             try
             {
-                _smtpClient.Connect(_smtpCredentials.Host, _smtpCredentials.Port, false, cancellationToken);            // TODO: NOT ASYNC :(
-                _smtpClient.Authenticate(_smtpCredentials.FromMail, _smtpCredentials.HostPassword, cancellationToken);  // TODO: NOT ASYNC :(
-                _smtpClient.Send(mime, cancellationToken);                                                              // TODO: NOT ASYNC :(
-                _smtpClient.Disconnect(true, cancellationToken);                                                        // TODO: NOT ASYNC :(
+                _smtpClient.Send(mime, cancellationToken);  // TODO: NOT ASYNC :(
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "SMTP Send error");
+            }
+        }
+
+        public void Dispose()
+        {
+            _smtpClient.Disconnect(true);   // TODO: NOT ASYNC :(
+        }
+
+        private void Register()
+        {
+            try
+            {
+                _smtpClient.Connect(_smtpCredentials.Host, _smtpCredentials.Port, false);            // TODO: NOT ASYNC :(
+                _smtpClient.Authenticate(_smtpCredentials.FromMail, _smtpCredentials.HostPassword);  // TODO: NOT ASYNC :(
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SMTP Registration error");
             }
         }
     }
