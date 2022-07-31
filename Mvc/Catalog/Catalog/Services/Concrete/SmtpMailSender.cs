@@ -10,19 +10,23 @@ namespace Catalog.Services.Concrete
     {
         private readonly SmtpClient _smtpClient;
         private readonly SmtpCredentials _smtpCredentials;
+        private readonly ILogger<SmtpMailSender> _logger;
 
         private const string    MAIL_SUBJECT    = @"New product in catalog";
 
         public SmtpMailSender(
             IOptions<SmtpCredentials> smtpCredentials,
+            ILogger<SmtpMailSender> logger,
             SmtpClient smtpClient)
         {
             _smtpClient = smtpClient;
             _smtpCredentials = smtpCredentials.Value;
+            _logger = logger;
         }
 
         public async Task SendMail(string message, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("SMTP Send mail");
             var mime = new MimeMessage();
             mime.From.Add(new MailboxAddress(_smtpCredentials.FromNick, _smtpCredentials.FromMail));
             mime.To.Add(new MailboxAddress(_smtpCredentials.ToNick, _smtpCredentials.ToMail));
@@ -41,7 +45,7 @@ namespace Catalog.Services.Concrete
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.LogError(ex, "SMTP Send error");
             }
         }
     }
