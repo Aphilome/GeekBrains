@@ -8,13 +8,13 @@ namespace Catalog.Models
 
         public Category() { }
 
-        public Category(int id, string name) 
+        public Category(long id, string name) 
         {
             Id = id;
             Name = name;
         }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public string Name { get; set; } = string.Empty;
 
@@ -30,7 +30,12 @@ namespace Catalog.Models
 
         public void RemoveProduct(Product product)
         {
-            _products.Remove(product.Id, out _);
+            _products.TryRemove(product.Id, out _);
+        }
+
+        public void RemoveProduct(long productId)
+        {
+            _products.TryRemove(productId, out _);
         }
     }
 }

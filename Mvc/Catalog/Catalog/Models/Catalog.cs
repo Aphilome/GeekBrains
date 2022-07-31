@@ -4,7 +4,7 @@ namespace Catalog.Models
 {
     public class Catalog
     {
-        private ConcurrentDictionary<int, Category> _categories { get; }
+        private ConcurrentDictionary<long, Category> _categories { get; }
 
         public Catalog()
         {
@@ -16,7 +16,7 @@ namespace Catalog.Models
             fruitsCategory.AddNewProduct(new Product(1, fruitsCategory.Id, "Apple"));
             fruitsCategory.AddNewProduct(new Product(2, fruitsCategory.Id, "Orange"));
 
-            _categories = new ConcurrentDictionary<int, Category>();
+            _categories = new ConcurrentDictionary<long, Category>();
             _categories[vegetablesCategory.Id] = vegetablesCategory;
             _categories[fruitsCategory.Id] = fruitsCategory;
         }
