@@ -6,7 +6,7 @@ using MimeKit;
 
 namespace Catalog.Services.Concrete
 {
-    public class SmtpMailSender : IMailSender, IDisposable
+    public class SmtpMailSender : IMailSender, IDisposable, IAsyncDisposable
     {
         private readonly SmtpClient _smtpClient;
         private readonly SmtpCredentials _smtpCredentials;
@@ -22,14 +22,16 @@ namespace Catalog.Services.Concrete
             _smtpClient = smtpClient;
             _smtpCredentials = smtpCredentials.Value;
             _logger = logger;
-
-            Register();
         }
 
         public async Task SendMail(string message, CancellationToken cancellationToken)
         {
             if (!(_smtpClient.IsAuthenticated && _smtpClient.IsSigned))
-                _logger.LogInformation("SMTP Send mail");
+                await Register();
+            if (!(_smtpClient.IsAuthenticated && _smtpClient.IsSigned))
+                return;
+
+            _logger.LogInformation("SMTP Send mail");
 
             var mime = new MimeMessage();
             mime.From.Add(new MailboxAddress(_smtpCredentials.FromNick, _smtpCredentials.FromMail));
@@ -42,7 +44,7 @@ namespace Catalog.Services.Concrete
 
             try
             {
-                _smtpClient.Send(mime, cancellationToken);  // TODO: NOT ASYNC :(
+                await _smtpClient.SendAsync(mime, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -54,7 +56,7 @@ namespace Catalog.Services.Concrete
         {
             try
             {
-                _smtpClient.Disconnect(true);   // TODO: NOT ASYNC :(
+                _smtpClient.Disconnect(true);
             }
             catch(Exception ex)
             {
@@ -62,12 +64,25 @@ namespace Catalog.Services.Concrete
             }
         }
 
-        private void Register()
+        public async ValueTask DisposeAsync()
         {
             try
             {
-                _smtpClient.Connect(_smtpCredentials.Host, _smtpCredentials.Port, false);            // TODO: NOT ASYNC :(
-                _smtpClient.Authenticate(_smtpCredentials.FromMail, _smtpCredentials.HostPassword);  // TODO: NOT ASYNC :(
+                await _smtpClient.DisconnectAsync(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SMTP Disconnect error");
+            }
+        }
+
+        private async Task Register()
+        {
+            _logger.LogInformation("SMTP Registration try");
+            try
+            {
+                await _smtpClient.ConnectAsync(_smtpCredentials.Host, _smtpCredentials.Port, false);
+                await _smtpClient.AuthenticateAsync(_smtpCredentials.FromMail, _smtpCredentials.HostPassword);
             }
             catch (Exception ex)
             {
