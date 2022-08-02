@@ -1,4 +1,6 @@
-﻿using Catalog.Models;
+﻿using Catalog.DomainEvents;
+using Catalog.DomainEvents.Bl;
+using Catalog.Models;
 using Catalog.Services.Abstract;
 
 namespace Catalog.Services.Concrete
@@ -16,9 +18,10 @@ namespace Catalog.Services.Concrete
         public async Task Add(Models.Catalog catalog, Product product, CancellationToken cancellationToken)
         {
             catalog.GetCategories().First(i => i.Id == product.CategoryId).AddNewProduct(product);
-
-            var message = $"New product {product.Name} [{product.Id}] in [{product.CategoryId}]";
-            await _mailSender.SendMail(message, cancellationToken); // тут
+            DomainEventsManager.Raise(new ProductAdded()
+            {
+                NewProduct = product
+            });
         }
 
         public async Task Remove(Models.Catalog catalog, long productId, CancellationToken cancellationToken)

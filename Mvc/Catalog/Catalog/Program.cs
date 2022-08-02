@@ -1,5 +1,6 @@
 using Catalog.BackgroundServices;
 using Catalog.Configs;
+using Catalog.DomainEvents.Handlers;
 using Catalog.Services.Abstract;
 using Catalog.Services.Concrete;
 using MailKit.Net.Smtp;
@@ -21,6 +22,8 @@ try
 
     builder.Services.Configure<SmtpCredentials>(builder.Configuration.GetSection("SmtpCredentials"));
 
+    builder.Services.AddHostedService<ProductAddedEmailSenderHandler>();
+    
     builder.Services.AddScoped<SmtpClient>();
     builder.Services.AddScoped<IMailSender, SmtpMailSender>();
     builder.Services.AddScoped<IProductService, ProductService>();
