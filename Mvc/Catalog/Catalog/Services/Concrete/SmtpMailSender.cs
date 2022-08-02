@@ -12,7 +12,7 @@ namespace Catalog.Services.Concrete
         private readonly SmtpCredentials _smtpCredentials;
         private readonly ILogger<SmtpMailSender> _logger;
 
-        private const string    MAIL_SUBJECT    = @"New product in catalog";
+        private const string MAIL_SUBJECT = @"New product in catalog";
 
         public SmtpMailSender(
             IOptions<SmtpCredentials> smtpCredentials,
@@ -26,6 +26,11 @@ namespace Catalog.Services.Concrete
 
         public async Task SendMail(string message, CancellationToken cancellationToken)
         {
+            await SendMail(message, MAIL_SUBJECT, cancellationToken);
+        }
+
+        public async Task SendMail(string message, string subject, CancellationToken cancellationToken)
+        {
             if (!(_smtpClient.IsAuthenticated && _smtpClient.IsSigned))
                 await Register();
             if (!(_smtpClient.IsAuthenticated && _smtpClient.IsSigned))
@@ -36,7 +41,7 @@ namespace Catalog.Services.Concrete
             var mime = new MimeMessage();
             mime.From.Add(new MailboxAddress(_smtpCredentials.FromNick, _smtpCredentials.FromMail));
             mime.To.Add(new MailboxAddress(_smtpCredentials.ToNick, _smtpCredentials.ToMail));
-            mime.Subject = MAIL_SUBJECT;
+            mime.Subject = subject;
             mime.Body = new TextPart("plain")
             {
                 Text = message
@@ -44,7 +49,7 @@ namespace Catalog.Services.Concrete
 
             try
             {
-                await _smtpClient.SendAsync(mime, cancellationToken);
+                await _smtpClient.SendAsync(mime, cancellationToken); // и тут
             }
             catch (Exception ex)
             {
@@ -64,7 +69,7 @@ namespace Catalog.Services.Concrete
             }
         }
 
-        public async ValueTask DisposeAsync()
+        public async ValueTask DisposeAsync() // туть
         {
             try
             {

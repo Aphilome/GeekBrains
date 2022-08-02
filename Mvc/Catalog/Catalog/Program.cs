@@ -1,3 +1,4 @@
+using Catalog.BackgroundServices;
 using Catalog.Configs;
 using Catalog.Services.Abstract;
 using Catalog.Services.Concrete;
@@ -23,6 +24,8 @@ try
     builder.Services.AddScoped<SmtpClient>();
     builder.Services.AddScoped<IMailSender, SmtpMailSender>();
     builder.Services.AddScoped<IProductService, ProductService>();
+
+    builder.Services.AddHostedService<ServerMonitoring>();
 
     var app = builder.Build();
 
