@@ -1,9 +1,11 @@
 using Catalog.BackgroundServices;
 using Catalog.Configs;
 using Catalog.DomainEvents.Handlers;
+using Catalog.Middleware;
 using Catalog.Services.Abstract;
 using Catalog.Services.Concrete;
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.HttpLogging;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -30,6 +32,14 @@ try
 
     builder.Services.AddHostedService<ServerMonitoring>();
 
+    builder.Services.AddHttpLogging(o =>
+    {
+        o.LoggingFields = HttpLoggingFields.RequestHeaders
+                        | HttpLoggingFields.ResponseHeaders
+                        | HttpLoggingFields.RequestBody
+                        | HttpLoggingFields.ResponseBody;
+    });
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -39,6 +49,9 @@ try
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
+
+    app.UseHttpLogging();
+    app.UseMiddleware<CheckBrowserMiddleware>();
 
     app.UseHttpsRedirection();
     app.UseStaticFiles();
