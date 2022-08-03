@@ -23,7 +23,7 @@ namespace Catalog.Controllers
         }
 
         [HttpPost("products")]
-        public async Task<IActionResult> Products(Product product, CancellationToken cancellationToken)
+        public async Task<IActionResult> Products(Product product, CancellationToken cancellationToken) // уже
         {
             product.CategoryId = long.Parse(Request.Form["categories"]);
             await _productService.Add(_catalog, product, cancellationToken);
