@@ -15,7 +15,6 @@ namespace CardStorageService.Services.Impl
 
         private readonly CardStorageServiceDbContext _context;
         private readonly ILogger<CardRepository> _logger;
-        private readonly IOptions<DatabaseOptions> _databaseOptions;
 
         #endregion
 
@@ -25,7 +24,6 @@ namespace CardStorageService.Services.Impl
             CardStorageServiceDbContext context)
         {
             _logger = logger;
-            _databaseOptions = databaseOptions;
             _context = context;
         }
 
@@ -42,31 +40,9 @@ namespace CardStorageService.Services.Impl
             return data.CardId.ToString();
         }
 
-        public IList<Card> GetByClientId(string id)
+        public IList<Card> GetByClientId(int id)
         {
-
-            List<Card> cards = new List<Card>();
-            using (SqlConnection sqlConnection = new SqlConnection(_databaseOptions.Value.ConnectionString))
-            {
-                sqlConnection.Open();
-                using (var sqlCommand = new SqlCommand(String.Format("select * from cards where ClientId = {0}", id), sqlConnection))
-                {
-                    var reader = sqlCommand.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        cards.Add(new Card
-                        {
-                            CardId = new Guid(reader["CardId"].ToString()),
-                            CardNo = reader["CardNo"]?.ToString(),
-                            Name = reader["Name"]?.ToString(),
-                            CVV2 = reader["CVV2"]?.ToString(),
-                            ExpDate = Convert.ToDateTime(reader["ExpDate"])
-                        });
-                    }
-                }
-
-            }
-            return cards;
+            return _context.Cards.Where(card => card.ClientId == id).ToList;
         }
 
         public int Delete(string id)

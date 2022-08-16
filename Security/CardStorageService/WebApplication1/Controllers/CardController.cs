@@ -33,7 +33,7 @@ namespace CardStorageService.Controllers
 
         #endregion
 
-        #region Pulbic Methods
+        #region Public Methods
 
         [HttpPost("create")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -67,7 +67,7 @@ namespace CardStorageService.Controllers
 
         [HttpGet("get-by-client-id")]
         [ProducesResponseType(typeof(GetCardsResponse), StatusCodes.Status200OK)]
-        public IActionResult GetByClientId([FromQuery] string clientId)
+        public IActionResult GetByClientId([FromQuery] int clientId)
         {
             try
             {
