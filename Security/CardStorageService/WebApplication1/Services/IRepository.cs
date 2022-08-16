@@ -1,4 +1,6 @@
-﻿namespace CardStorageService.Services.Impl
+﻿using System.Collections.Generic;
+
+namespace CardStorageService.Services
 {
     public interface IRepository<T, TId>
     {
