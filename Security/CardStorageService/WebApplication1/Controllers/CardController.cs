@@ -45,6 +45,7 @@ namespace CardStorageService.Controllers
                 {
                     ClientId = request.ClientId,
                     CardNo = request.CardNo,
+                    Name = request.Name,
                     ExpDate = request.ExpDate,
                     CVV2 = request.CVV2
                 });
