@@ -42,7 +42,7 @@ namespace CardStorageService.Services.Impl
 
         public IList<Card> GetByClientId(int id)
         {
-            return _context.Cards.Where(card => card.ClientId == id).ToList;
+            return _context.Cards.Where(card => card.ClientId == id).ToList();
         }
 
         public int Delete(string id)
