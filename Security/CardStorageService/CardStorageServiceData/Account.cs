@@ -1,8 +1,9 @@
-﻿using System;
+﻿using CardStorageServiceData;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CardStorageServiceData
+namespace CardStorageService.Data
 {
 
     [Table("Accounts")]
@@ -30,6 +31,9 @@ namespace CardStorageServiceData
 
         [StringLength(255)]
         public string SecondName { get; set; }
+
+        [InverseProperty(nameof(AccountSession.Account))]
+        public virtual ICollection<AccountSession> Sessions { get; set; } = new HashSet<AccountSession>();
 
     }
 }

@@ -4,6 +4,7 @@ using CardStorageServiceData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CardStorageServiceData.Migrations
 {
     [DbContext(typeof(CardStorageServiceDbContext))]
-    partial class CardStorageServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220821000256_Finished")]
+    partial class Finished
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
