@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CardStorageServiceData.Migrations
 {
     [DbContext(typeof(CardStorageServiceDbContext))]
-    [Migration("20220821000256_Finished")]
+    [Migration("20220821124228_Finished")]
     partial class Finished
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
