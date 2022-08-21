@@ -1,13 +1,21 @@
+using CardStorageService.Data;
 using CardStorageService.Services;
 using CardStorageService.Services.Impl;
 using CardStorageServiceData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CardStorageService
 {
@@ -24,10 +32,30 @@ namespace CardStorageService
         public void ConfigureServices(IServiceCollection services)
         {
 
+            #region Configure Options Services
+
+            services.Configure<DatabaseOptions>(options =>
+            {
+                Configuration.GetSection("Settings:DatabaseOptions").Bind(options);
+            });
+
+            #endregion
+
             services.AddSingleton<IAuthenticateService, AuthenticateService>();
+
 
             services.AddScoped<IClientRepositoryService, ClientRepository>();
             services.AddScoped<ICardRepositoryService, CardRepository>();
+
+            services.AddHttpLogging(logging =>
+            {
+                logging.LoggingFields = HttpLoggingFields.All | HttpLoggingFields.RequestQuery;
+                logging.RequestBodyLogLimit = 4096;
+                logging.ResponseBodyLogLimit = 4096;
+                logging.RequestHeaders.Add("Authorization");
+                logging.RequestHeaders.Add("X-Real-IP");
+                logging.RequestHeaders.Add("X-Forwarded-For");
+            });
 
             #region Configure EF DBContext Service (CardStorageService Database)
 
@@ -37,7 +65,6 @@ namespace CardStorageService
             });
 
             #endregion
-
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -57,6 +84,7 @@ namespace CardStorageService
             }
 
             app.UseRouting();
+            app.UseHttpLogging();
 
             app.UseAuthorization();
 
