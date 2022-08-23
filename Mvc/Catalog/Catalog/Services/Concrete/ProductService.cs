@@ -18,7 +18,7 @@ namespace Catalog.Services.Concrete
             catalog.GetCategories().First(i => i.Id == product.CategoryId).AddNewProduct(product);
 
             var message = $"New product {product.Name} [{product.Id}] in [{product.CategoryId}]";
-            await _mailSender.SendMail(message, cancellationToken);
+            await _mailSender.SendMail(message, cancellationToken); // тут
         }
 
         public async Task Remove(Models.Catalog catalog, long productId, CancellationToken cancellationToken)
