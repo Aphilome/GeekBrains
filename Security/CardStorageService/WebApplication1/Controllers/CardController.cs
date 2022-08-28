@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CardStorageService.Controllers
 {
+    [Authorize]
     [Route("api/cards")]
     [ApiController]
     public class CardController : ControllerBase
