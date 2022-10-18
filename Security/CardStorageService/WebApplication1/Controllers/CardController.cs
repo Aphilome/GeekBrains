@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using System.Collections;
 using System.Collections.Generic;
+using FluentValidation;
 
 namespace CardStorageService.Controllers
 {
@@ -24,6 +25,8 @@ namespace CardStorageService.Controllers
         private readonly ICardRepositoryService _cardRepositoryService;
         private readonly ILogger<CardController> _logger;
         private readonly IMapper _mapper;
+        private readonly IValidator<CreateCardRequest> _createCardRequestValidator;
+
 
         #endregion
 
@@ -31,10 +34,12 @@ namespace CardStorageService.Controllers
 
         public CardController(
             ILogger<CardController> logger,
-            ICardRepositoryService cardRepositoryService)
+            ICardRepositoryService cardRepositoryService,
+            IValidator<CreateCardRequest> createCardRequestValidator)
         {
             _logger = logger;
             _cardRepositoryService = cardRepositoryService;
+            _createCardRequestValidator = createCardRequestValidator;
         }
 
         #endregion
@@ -43,8 +48,13 @@ namespace CardStorageService.Controllers
 
         [HttpPost("create")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IDictionary<string, string[]>), StatusCodes.Status400BadRequest)]
         public IActionResult Create([FromBody] CreateCardRequest request)
         {
+            var validationResult = _createCardRequestValidator.Validate(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.ToDictionary());
+
             try
             {
                 var cardId = _cardRepositoryService.Create(_mapper.Map<Card>(request));

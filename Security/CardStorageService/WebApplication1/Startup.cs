@@ -42,6 +42,8 @@ namespace CardStorageService
             #region Configure FluentValidator
 
             services.AddScoped<IValidator<AuthenticationRequest>, AuthenticationRequestValidator>();
+            services.AddScoped<IValidator<CreateCardRequest>, CreateCardRequestValidator>();
+            services.AddScoped<IValidator<CreateClientRequest>, CreateClientRequestValidator>();
 
             #endregion
 
