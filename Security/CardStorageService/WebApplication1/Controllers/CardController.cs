@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CardStorageService.Controllers
 {
@@ -20,6 +23,7 @@ namespace CardStorageService.Controllers
 
         private readonly ICardRepositoryService _cardRepositoryService;
         private readonly ILogger<CardController> _logger;
+        private readonly IMapper _mapper;
 
         #endregion
 
@@ -43,14 +47,7 @@ namespace CardStorageService.Controllers
         {
             try
             {
-                var cardId = _cardRepositoryService.Create(new Card
-                {
-                    ClientId = request.ClientId,
-                    CardNo = request.CardNo,
-                    Name = request.Name,
-                    ExpDate = request.ExpDate,
-                    CVV2 = request.CVV2
-                });
+                var cardId = _cardRepositoryService.Create(_mapper.Map<Card>(request));
                 return Ok(new CreateCardResponse
                 {
                     CardId = cardId.ToString()
@@ -76,14 +73,7 @@ namespace CardStorageService.Controllers
                 var cards = _cardRepositoryService.GetByClientId(clientId);
                 return Ok(new GetCardsResponse
                 {
-                    Cards = cards.Select(card => new CardDto
-                    {
-                        CardId = card.CardId,
-                        CardNo = card.CardNo,
-                        CVV2 = card.CVV2,
-                        Name = card.Name,
-                        ExpDate = card.ExpDate.ToString("MM/yy")
-                    }).ToList()
+                    Cards = _mapper.Map<List<CardDto>>(cards)
                 });
             }
             catch (Exception e)

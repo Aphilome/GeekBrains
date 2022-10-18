@@ -1,7 +1,12 @@
+using AutoMapper;
 using CardStorageService.Data;
+using CardStorageService.Mappings;
+using CardStorageService.Models.Requests;
+using CardStorageService.Models.Validators;
 using CardStorageService.Services;
 using CardStorageService.Services.Impl;
 using CardStorageServiceData;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +39,19 @@ namespace CardStorageService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Configure FluentValidator
+
+            services.AddScoped<IValidator<AuthenticationRequest>, AuthenticationRequestValidator>();
+
+            #endregion
+
+            #region Configure Mapper
+
+            var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MappingProfile()));
+            var mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
+
+            #endregion
 
             #region Configure Options Services
 
@@ -44,11 +62,15 @@ namespace CardStorageService
 
             #endregion
 
+            #region Configure Services
+
             services.AddSingleton<IAuthenticateService, AuthenticateService>();
-
-
             services.AddScoped<IClientRepositoryService, ClientRepository>();
             services.AddScoped<ICardRepositoryService, CardRepository>();
+
+            #endregion
+
+            #region Configure Logging
 
             services.AddHttpLogging(logging =>
             {
@@ -59,6 +81,8 @@ namespace CardStorageService
                 logging.RequestHeaders.Add("X-Real-IP");
                 logging.RequestHeaders.Add("X-Forwarded-For");
             });
+
+            #endregion
 
             #region Configure EF DBContext Service (CardStorageService Database)
 
