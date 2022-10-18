@@ -12,6 +12,8 @@ namespace CardStorageService.Mappings
             CreateMap<Card, CardDto>();
 
             CreateMap<CreateCardRequest, Card>();
+            
+            CreateMap<CreateClientRequest, Client>();
         }
     }
 }

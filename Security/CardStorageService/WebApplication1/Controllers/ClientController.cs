@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using FluentValidation;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace CardStorageService.Controllers
 {
@@ -19,6 +20,7 @@ namespace CardStorageService.Controllers
         private readonly IClientRepositoryService _clientRepositoryService;
         private readonly ILogger<CardController> _logger;
         private readonly IValidator<CreateClientRequest> _createClientRequestValidator;
+        private readonly IMapper _mapper;
 
         #endregion
 
@@ -28,11 +30,13 @@ namespace CardStorageService.Controllers
         public ClientController(
             ILogger<CardController> logger,
             IClientRepositoryService clientRepositoryService,
-            IValidator<CreateClientRequest> createClientRequestValidator)
+            IValidator<CreateClientRequest> createClientRequestValidator,
+            IMapper mapper)
         {
             _logger = logger;
             _clientRepositoryService = clientRepositoryService;
             _createClientRequestValidator = createClientRequestValidator;
+            _mapper = mapper;
         }
 
         #endregion
@@ -50,12 +54,8 @@ namespace CardStorageService.Controllers
 
             try
             {
-                var clientId = _clientRepositoryService.Create(new Client
-                {
-                    FirstName = request.FirstName,
-                    Surname = request.Surname,
-                    Patronymic = request.Patronymic
-                });
+                var clientId = _clientRepositoryService.Create(_mapper.Map<Client>(request));
+
                 return Ok(new CreateClientResponse
                 {
                     ClientId = clientId

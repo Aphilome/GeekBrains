@@ -6,10 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using System.Collections;
 using System.Collections.Generic;
 using FluentValidation;
 
@@ -27,7 +25,6 @@ namespace CardStorageService.Controllers
         private readonly IMapper _mapper;
         private readonly IValidator<CreateCardRequest> _createCardRequestValidator;
 
-
         #endregion
 
         #region Constructors
@@ -35,11 +32,13 @@ namespace CardStorageService.Controllers
         public CardController(
             ILogger<CardController> logger,
             ICardRepositoryService cardRepositoryService,
-            IValidator<CreateCardRequest> createCardRequestValidator)
+            IValidator<CreateCardRequest> createCardRequestValidator,
+            IMapper mapper)
         {
             _logger = logger;
             _cardRepositoryService = cardRepositoryService;
             _createCardRequestValidator = createCardRequestValidator;
+            _mapper = mapper;
         }
 
         #endregion
