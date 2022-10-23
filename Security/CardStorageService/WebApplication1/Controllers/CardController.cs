@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using System.Collections.Generic;
+using FluentValidation;
 
 namespace CardStorageService.Controllers
 {
@@ -20,6 +22,8 @@ namespace CardStorageService.Controllers
 
         private readonly ICardRepositoryService _cardRepositoryService;
         private readonly ILogger<CardController> _logger;
+        private readonly IMapper _mapper;
+        private readonly IValidator<CreateCardRequest> _createCardRequestValidator;
 
         #endregion
 
@@ -27,10 +31,14 @@ namespace CardStorageService.Controllers
 
         public CardController(
             ILogger<CardController> logger,
-            ICardRepositoryService cardRepositoryService)
+            ICardRepositoryService cardRepositoryService,
+            IValidator<CreateCardRequest> createCardRequestValidator,
+            IMapper mapper)
         {
             _logger = logger;
             _cardRepositoryService = cardRepositoryService;
+            _createCardRequestValidator = createCardRequestValidator;
+            _mapper = mapper;
         }
 
         #endregion
@@ -39,18 +47,16 @@ namespace CardStorageService.Controllers
 
         [HttpPost("create")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IDictionary<string, string[]>), StatusCodes.Status400BadRequest)]
         public IActionResult Create([FromBody] CreateCardRequest request)
         {
+            var validationResult = _createCardRequestValidator.Validate(request);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.ToDictionary());
+
             try
             {
-                var cardId = _cardRepositoryService.Create(new Card
-                {
-                    ClientId = request.ClientId,
-                    CardNo = request.CardNo,
-                    Name = request.Name,
-                    ExpDate = request.ExpDate,
-                    CVV2 = request.CVV2
-                });
+                var cardId = _cardRepositoryService.Create(_mapper.Map<Card>(request));
                 return Ok(new CreateCardResponse
                 {
                     CardId = cardId.ToString()
@@ -76,14 +82,7 @@ namespace CardStorageService.Controllers
                 var cards = _cardRepositoryService.GetByClientId(clientId);
                 return Ok(new GetCardsResponse
                 {
-                    Cards = cards.Select(card => new CardDto
-                    {
-                        CardId = card.CardId,
-                        CardNo = card.CardNo,
-                        CVV2 = card.CVV2,
-                        Name = card.Name,
-                        ExpDate = card.ExpDate.ToString("MM/yy")
-                    }).ToList()
+                    Cards = _mapper.Map<List<CardDto>>(cards)
                 });
             }
             catch (Exception e)
