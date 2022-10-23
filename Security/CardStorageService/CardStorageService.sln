@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardStorageService", "WebAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardStorageServiceData", "CardStorageServiceData\CardStorageServiceData.csproj", "{CC1C9671-86E2-48F5-B3A8-2282251FC386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTSample", "JWTSample\JWTSample.csproj", "{07E08BBE-E44E-4F64-8F5A-74AF96E24258}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWTSample", "JWTSample\JWTSample.csproj", "{07E08BBE-E44E-4F64-8F5A-74AF96E24258}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Account.Helper", "Account.Helper\Account.Helper.csproj", "{14BF36D1-8A3A-42FB-AD13-3B1CFE6D0DE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Account.Helper", "Account.Helper\Account.Helper.csproj", "{14BF36D1-8A3A-42FB-AD13-3B1CFE6D0DE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardStorageClient", "CardStorageClient\CardStorageClient.csproj", "{CA9646F8-0F33-4EB8-B1D5-8293AF54D79F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{14BF36D1-8A3A-42FB-AD13-3B1CFE6D0DE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14BF36D1-8A3A-42FB-AD13-3B1CFE6D0DE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14BF36D1-8A3A-42FB-AD13-3B1CFE6D0DE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA9646F8-0F33-4EB8-B1D5-8293AF54D79F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA9646F8-0F33-4EB8-B1D5-8293AF54D79F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA9646F8-0F33-4EB8-B1D5-8293AF54D79F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA9646F8-0F33-4EB8-B1D5-8293AF54D79F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
