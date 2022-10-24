@@ -25,7 +25,7 @@ internal class Restaurant
         _lock.Wait();
         try
         { 
-            table = _tables.FirstOrDefault(i => i.SeatsCount > countOfPersons && i.State == Enums.State.Free);
+            table = _tables.FirstOrDefault(i => i.SeatsCount > countOfPersons && i.State == State.Free);
             table?.SetState(State.Booked);
             Thread.Sleep(5000); // so slow managers
         }
@@ -45,7 +45,7 @@ internal class Restaurant
     /// <param name="countOfPersons"></param>
     public void BookFreeTableAsync(int countOfPersons)
     {
-        Console.WriteLine("Hi! I will check the table and approve booking.  You will get notification");
+        Console.WriteLine("Hi! I will check the table and approve booking. You will get notification");
 
         Task.Run(async () =>
         {
@@ -65,6 +65,67 @@ internal class Restaurant
             Console.WriteLine(table is null
                 ? "NOTIFICATION: Sorry, we havn't free tables"
                 : $"NOTIFICATION: Done! You table number is {table.Id}");
+        });
+    }
+
+    /// <summary>
+    /// Via phon calling
+    /// </summary>
+    /// <param name="countOfPersons"></param>
+    public void CancelBookinkg(int tableId)
+    {
+        Console.WriteLine("Hi! I will check the booking and cancel it, please be in line");
+
+        _lock.Wait();
+        string msg;
+        try
+        { 
+            var table = _tables.FirstOrDefault(i => i.Id == tableId);
+            if (table is null)
+                msg = $"We don't have like table {tableId}";
+            else
+            {
+                if (table.State == State.Booked)
+                    msg = $"Succuss freed {tableId}!";
+                else
+                    msg = $"Table {tableId} already is free!";
+            }
+            Thread.Sleep(5000); // so slow managers
+        }
+        finally
+        {
+            _lock.Release();
+        }
+        Console.WriteLine(msg);
+    }
+
+    public void CancelBookinkgAsync(int tableId)
+    {
+        Console.WriteLine("Hi! I will check the booking and cancel it. You will get notification");
+
+        Task.Run(async () =>
+        {
+            await _lock.WaitAsync();
+            string msg;
+            try
+            {
+                var table = _tables.FirstOrDefault(i => i.Id == tableId);
+                if (table is null)
+                    msg = $"NOTIFICATION: We don't have like table {tableId}";
+                else
+                {
+                    if (table.State == State.Booked)
+                        msg = $"NOTIFICATION: Succuss freed {tableId}!";
+                    else
+                        msg = $"NOTIFICATION: Table {tableId} already is free!";
+                }
+                await Task.Delay(5000); // so slow managers
+            }
+            finally
+            {
+                _lock.Release();
+            }
+            Console.WriteLine(msg);
         });
     }
 }
