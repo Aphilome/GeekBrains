@@ -1,4 +1,5 @@
-﻿using MdaRestaurant.Enums;
+﻿using MdaRestaurant.Bl;
+using MdaRestaurant.Enums;
 
 namespace MdaRestaurant.Models;
 
@@ -6,6 +7,7 @@ internal class Restaurant
 {
     private readonly List<Table> _tables = new();
     private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
+    private readonly Notificator _notificator = new();
 
     public Restaurant()
 	{
@@ -45,10 +47,10 @@ internal class Restaurant
     /// <param name="countOfPersons"></param>
     public void BookFreeTableAsync(int countOfPersons)
     {
-        Console.WriteLine("Hi! I will check the table and approve booking. You will get notification");
-
         Task.Run(async () =>
         {
+            await _notificator.SendNotificationAsync("Hi! I will check the table and approve booking. You will get notification");
+
             Table? table;
             await _lock.WaitAsync();
             try
@@ -62,7 +64,7 @@ internal class Restaurant
                 _lock.Release();
             }
 
-            Console.WriteLine(table is null
+            await _notificator.SendNotificationAsync(table is null
                 ? "NOTIFICATION: Sorry, we havn't free tables"
                 : $"NOTIFICATION: Done! You table number is {table.Id}");
         });
@@ -101,10 +103,9 @@ internal class Restaurant
 
     public void CancelBookinkgAsync(int tableId)
     {
-        Console.WriteLine("Hi! I will check the booking and cancel it. You will get notification");
-
         Task.Run(async () =>
         {
+            await _notificator.SendNotificationAsync("Hi! I will check the booking and cancel it. You will get notification");
             await _lock.WaitAsync();
             string msg;
             try
@@ -125,7 +126,7 @@ internal class Restaurant
             {
                 _lock.Release();
             }
-            Console.WriteLine(msg);
+            await _notificator.SendNotificationAsync(msg);
         });
     }
 }
