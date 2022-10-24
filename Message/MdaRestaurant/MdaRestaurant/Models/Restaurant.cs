@@ -8,12 +8,17 @@ internal class Restaurant
     private readonly List<Table> _tables = new();
     private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
     private readonly Notificator _notificator = new();
+    private readonly System.Timers.Timer _timer;
 
     public Restaurant()
 	{
 		for (ushort i = 1; i <= 10; i++)
 			_tables.Add(new Table(i));
-	}
+        _timer = new System.Timers.Timer(20 * 1000);
+        _timer.Elapsed += async (sender, e) => await OnCancellingTimerElapsed();
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+    }
 
     /// <summary>
     /// Via phon calling
@@ -128,5 +133,21 @@ internal class Restaurant
             }
             await _notificator.SendNotificationAsync(msg);
         });
+    }
+
+    private async Task OnCancellingTimerElapsed()
+    {
+        await _lock.WaitAsync();
+
+        try
+        {
+            foreach (var i in _tables.Where(i => i.State == State.Booked))
+                i.SetState(State.Free);
+        }
+        finally
+        {
+            _lock.Release();
+        }
+        Console.WriteLine("All bookings cancelled");
     }
 }
