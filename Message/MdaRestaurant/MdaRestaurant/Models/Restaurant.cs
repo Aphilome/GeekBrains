@@ -1,5 +1,5 @@
-﻿using MdaRestaurant.Bl;
-using MdaRestaurant.Enums;
+﻿using MdaRestaurant.Enums;
+using Messaging;
 
 namespace MdaRestaurant.Models;
 
@@ -7,17 +7,12 @@ internal class Restaurant
 {
     private readonly List<Table> _tables = new();
     private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
-    private readonly Notificator _notificator = new();
-    private readonly System.Timers.Timer _timer;
+    private readonly Producer _producer = new(RabbitMqQueues.BookingNotificationName);
 
     public Restaurant()
 	{
 		for (ushort i = 1; i <= 10; i++)
 			_tables.Add(new Table(i));
-        _timer = new System.Timers.Timer(20 * 1000);
-        _timer.Elapsed += async (sender, e) => await OnCancellingTimerElapsed();
-        _timer.AutoReset = true;
-        _timer.Enabled = true;
     }
 
     /// <summary>
@@ -54,7 +49,7 @@ internal class Restaurant
     {
         Task.Run(async () =>
         {
-            await _notificator.SendNotificationAsync("Hi! I will check the table and approve booking. You will get notification");
+            _producer.Send("Hi! I will check the table and approve booking. You will get notification");
 
             Table? table;
             await _lock.WaitAsync();
@@ -69,7 +64,7 @@ internal class Restaurant
                 _lock.Release();
             }
 
-            await _notificator.SendNotificationAsync(table is null
+            _producer.Send(table is null
                 ? "NOTIFICATION: Sorry, we havn't free tables"
                 : $"NOTIFICATION: Done! You table number is {table.Id}");
         });
@@ -110,7 +105,7 @@ internal class Restaurant
     {
         Task.Run(async () =>
         {
-            await _notificator.SendNotificationAsync("Hi! I will check the booking and cancel it. You will get notification");
+            _producer.Send("Hi! I will check the booking and cancel it. You will get notification");
             await _lock.WaitAsync();
             string msg;
             try
@@ -131,23 +126,7 @@ internal class Restaurant
             {
                 _lock.Release();
             }
-            await _notificator.SendNotificationAsync(msg);
+            _producer.Send(msg);
         });
-    }
-
-    private async Task OnCancellingTimerElapsed()
-    {
-        await _lock.WaitAsync();
-
-        try
-        {
-            foreach (var i in _tables.Where(i => i.State == State.Booked))
-                i.SetState(State.Free);
-        }
-        finally
-        {
-            _lock.Release();
-        }
-        Console.WriteLine("All bookings cancelled");
     }
 }
