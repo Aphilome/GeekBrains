@@ -1,5 +1,6 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System.Threading.Channels;
 
 namespace Messaging;
 
@@ -12,7 +13,6 @@ public class Consumer : IDisposable
 
     public Consumer(string queueName)
     {
-        _queueName = queueName;
         var factory = new ConnectionFactory()
         {
             HostName = RabbitMqConnectionSettings.HostName,
@@ -23,28 +23,33 @@ public class Consumer : IDisposable
         };
         _connection = factory.CreateConnection(); //создаем подключение
         _channel = _connection.CreateModel();
+        _queueName = _channel.QueueDeclare().QueueName;
     }
 
     public void Receive(EventHandler<BasicDeliverEventArgs> receiveCallback)
     {
         _channel.ExchangeDeclare(
             exchange: RabbitMqConnectionSettings.DidrectExchengeName,
-            type: ExchangeType.Direct); // объявляем обменник
+            type: ExchangeType.Fanout); // объявляем обменник
 
-        _channel.QueueDeclare(queue: _queueName,
-            durable: false,
-            exclusive: false,
-            autoDelete: false,
-            arguments: null); //объявляем очередь
+        //_channel.QueueDeclare(queue: _queueName,
+        //    durable: false,
+        //    exclusive: false,
+        //    autoDelete: false,
+        //    arguments: null); //объявляем очередь
 
-        _channel.QueueBind(queue: _queueName,
+        _channel.QueueBind(
+            queue: _queueName,
             exchange: RabbitMqConnectionSettings.DidrectExchengeName,
-            routingKey: _queueName); //биндим
+            routingKey: string.Empty); //биндим
 
         var consumer = new EventingBasicConsumer(_channel); // создаем consumer для канала
         consumer.Received += receiveCallback; // добавляем обработчик события приема сообщения
 
-        _channel.BasicConsume(queue: _queueName, autoAck: true, consumer: consumer); //стартуем!
+        _channel.BasicConsume(
+            queue: _queueName, 
+            autoAck: true, 
+            consumer: consumer); //стартуем!
     }
 
     public void Dispose()

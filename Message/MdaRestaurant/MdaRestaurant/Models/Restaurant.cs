@@ -7,7 +7,7 @@ internal class Restaurant
 {
     private readonly List<Table> _tables = new();
     private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
-    private readonly Producer _producer = new(RabbitMqQueues.BookingNotificationName);
+    private readonly Producer _producer = new();
 
     public Restaurant()
 	{

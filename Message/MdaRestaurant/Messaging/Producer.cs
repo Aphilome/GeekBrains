@@ -5,13 +5,6 @@ namespace Messaging;
 
 public class Producer
 {
-    private readonly string _queueName;
-
-    public Producer(string queueName)
-    {
-        _queueName = queueName;
-    }
-
     public void Send(string message)
     {
         var factory = new ConnectionFactory()
@@ -27,7 +20,7 @@ public class Producer
 
         channel.ExchangeDeclare(
             RabbitMqConnectionSettings.DidrectExchengeName,
-            ExchangeType.Direct,
+            ExchangeType.Fanout,
             false,
             false,
             null
@@ -37,7 +30,7 @@ public class Producer
 
         channel.BasicPublish(
             exchange: RabbitMqConnectionSettings.DidrectExchengeName,
-            routingKey: _queueName,
+            routingKey: string.Empty,
             basicProperties: null,
             body: body); //отправляем сообщение
     }
