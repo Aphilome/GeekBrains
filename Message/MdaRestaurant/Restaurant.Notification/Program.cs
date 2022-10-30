@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Restaurant.Notification;
 using Restaurant.Notification.Consumers;
-using System.Security.Authentication;
 
 CreateHostBuilder(args).Build().Run();
 
@@ -17,8 +16,8 @@ IHostBuilder CreateHostBuilder(string[] args) =>
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<NotifierTableBookedConsumer>();
-                x.AddConsumer<KitchenReadyConsumer>();
+                x.AddConsumer<NotifyConsumer>()
+                    .Endpoint(e => e.Temporary = true);
 
                 x.UsingRabbitMq((context, cfg) =>
                 {

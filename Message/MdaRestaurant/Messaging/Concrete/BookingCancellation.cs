@@ -2,9 +2,9 @@
 
 namespace Restaurant.Messages.Concrete;
 
-public class KitchenReady : IKitchenReady
+public class BookingCancellation : IBookingCancellation
 {
-    public KitchenReady(Guid orderId, bool ready)
+    public BookingCancellation(Guid orderId)
     {
         OrderId = orderId;
     }

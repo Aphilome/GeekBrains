@@ -15,9 +15,8 @@ internal class Manager
         _bus = bus;
     }
 
-    public void CheckKitchenReady(Guid orderId, Dish? dish, int tableId)
+    public bool CheckKitchenReady(Guid orderId, Dish? dish)
     {
-        var success = _random.Next(0, 101) < 20 ? false : true;
-        _bus.Publish<IKitchenReady>(new KitchenReady(orderId, success, tableId));
+        return true;
     }
 }

@@ -1,14 +1,9 @@
-﻿using System.Security.Authentication;
-using MassTransit;
+﻿using MassTransit;
 using Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Restaurant.Kitchen;
 using Restaurant.Kitchen.Consumers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 CreateHostBuilder(args).Build().Run();
 
@@ -19,7 +14,12 @@ IHostBuilder CreateHostBuilder(string[] args) =>
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<KitchenTableBookedConsumer>();
+                x.AddConsumer<KitchenBookingRequestedConsumer>()
+                    .Endpoint(e => e.Temporary = true);
+                x.AddConsumer<KitchenBookingRequestFaultConsumer>()
+                    .Endpoint(e => e.Temporary = true);
+                
+                x.AddDelayedMessageScheduler();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {

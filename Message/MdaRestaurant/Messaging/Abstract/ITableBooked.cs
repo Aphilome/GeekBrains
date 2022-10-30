@@ -6,9 +6,7 @@ public interface ITableBooked
 {
     public Guid OrderId { get; }
 
-    public Guid ClientId { get; }
+    public bool Success { get; }
 
-    public Dish? PreOrder { get; }
-
-    public int? TableId { get; }
+    public DateTime CreationDate { get; }
 }
