@@ -15,8 +15,16 @@ IHostBuilder CreateHostBuilder(string[] args) =>
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<RestaurantBookingRequestConsumer>()
-                            .Endpoint(e => e.Temporary = true);
+                x.AddConsumer<RestaurantBookingRequestConsumer>(configurator =>
+                    {
+                        configurator.UseScheduledRedelivery(r => 
+                            r.Intervals(TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(20), TimeSpan.FromSeconds(30))
+                        );
+                        configurator.UseMessageRetry(r =>
+                            r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2))
+                        );
+                    })
+                    .Endpoint(e => e.Temporary = true);
 
                 x.AddConsumer<BookingRequestFaultConsumer>()
                     .Endpoint(e => e.Temporary = true);
@@ -43,7 +51,7 @@ IHostBuilder CreateHostBuilder(string[] args) =>
 
             services.AddTransient<RestaurantBooking>();
             services.AddTransient<RestaurantBookingSaga>();
-            services.AddTransient< MdaRestaurant.Models.Restaurant>();
+            services.AddTransient<MdaRestaurant.Models.Restaurant>();
 
             services.AddHostedService<Worker>();
         });

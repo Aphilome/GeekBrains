@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using GreenPipes;
+using MassTransit;
 using Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,7 +15,15 @@ IHostBuilder CreateHostBuilder(string[] args) =>
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<KitchenBookingRequestedConsumer>()
+                x.AddConsumer<KitchenBookingRequestedConsumer>(configurator =>
+                    {
+                        configurator.UseScheduledRedelivery(r =>
+                            r.Intervals(TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(20), TimeSpan.FromSeconds(30))
+                        );
+                        configurator.UseMessageRetry(r =>
+                            r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2))
+                        );
+                    })
                     .Endpoint(e => e.Temporary = true);
                 x.AddConsumer<KitchenBookingRequestFaultConsumer>()
                     .Endpoint(e => e.Temporary = true);
@@ -29,7 +38,8 @@ IHostBuilder CreateHostBuilder(string[] args) =>
                         h.Password(RabbitMqConnectionSettings.Password);
 
                     });
-
+                    cfg.UseDelayedMessageScheduler();
+                    cfg.UseInMemoryOutbox();
                     cfg.ConfigureEndpoints(context);
                 });
             });
