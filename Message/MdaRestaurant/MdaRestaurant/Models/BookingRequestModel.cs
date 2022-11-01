@@ -1,8 +1,9 @@
 ﻿using Messaging.Enums;
+using Restaurant.Messages.Abstract;
 
 namespace Restaurant.Booking.Models;
 
-public class BookingRequestModel
+public class BookingRequestModel: IWithCreatedDate
 {
     public BookingRequestModel(Guid orderId, Guid clientId, Dish? preOrder, DateTime creationDate, string messageId)
     {
@@ -11,7 +12,7 @@ public class BookingRequestModel
         OrderId = orderId;
         ClientId = clientId;
         PreOrder = preOrder;
-        CreationDate = creationDate;
+        CreatedDate = creationDate;
     }
 
     public BookingRequestModel Update(BookingRequestModel model, string messageId)
@@ -21,7 +22,7 @@ public class BookingRequestModel
         OrderId = model.OrderId;
         ClientId = model.ClientId;
         PreOrder = model.PreOrder;
-        CreationDate = model.CreationDate;
+        CreatedDate = model.CreatedDate;
 
         return this;
     }
@@ -35,5 +36,5 @@ public class BookingRequestModel
     public Guid OrderId { get; private set; }
     public Guid ClientId { get; private set; }
     public Dish? PreOrder { get; private set; }
-    public DateTime CreationDate { get; private set; }
+    public DateTime CreatedDate { get; set; }
 }

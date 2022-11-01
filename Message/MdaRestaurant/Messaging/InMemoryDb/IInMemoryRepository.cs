@@ -1,6 +1,9 @@
-﻿namespace Restaurant.Messages.InMemoryDb;
+﻿using Restaurant.Messages.Abstract;
 
-public interface IInMemoryRepository<T> where T : class
+namespace Restaurant.Messages.InMemoryDb;
+
+public interface IInMemoryRepository<T>
+    where T : IWithCreatedDate
 {
     public void AddOrUpdate(T entity);
 

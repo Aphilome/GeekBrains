@@ -13,6 +13,7 @@ internal class KitchenBookingRequestedConsumer : IConsumer<IBookingRequest>
         _manager = manager;
     }
 
+    // Идемпотентный
     public async Task Consume(ConsumeContext<IBookingRequest> context)
     {
         Console.WriteLine($"[OrderId: {context.Message.OrderId} CreationDate: {context.Message.CreationDate}]");
