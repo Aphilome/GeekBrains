@@ -1,5 +1,6 @@
 ﻿using GreenPipes;
 using MassTransit;
+using MassTransit.Audit;
 using Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,6 +16,11 @@ IHostBuilder CreateHostBuilder(string[] args) =>
         {
             services.AddMassTransit(x =>
             {
+                services.AddSingleton<IMessageAuditStore, AuditStore>();
+
+                var serviceProvider = services.BuildServiceProvider();
+                var auditStore = serviceProvider.GetService<IMessageAuditStore>();
+
                 x.AddConsumer<KitchenBookingRequestedConsumer>(configurator =>
                     {
                         configurator.UseScheduledRedelivery(r =>
@@ -41,6 +47,9 @@ IHostBuilder CreateHostBuilder(string[] args) =>
                     cfg.UseDelayedMessageScheduler();
                     cfg.UseInMemoryOutbox();
                     cfg.ConfigureEndpoints(context);
+
+                    cfg.ConnectSendAuditObservers(auditStore);
+                    cfg.ConnectConsumeAuditObserver(auditStore);
                 });
             });
 

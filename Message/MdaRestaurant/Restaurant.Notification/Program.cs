@@ -1,5 +1,6 @@
 ﻿using GreenPipes;
 using MassTransit;
+using MassTransit.Audit;
 using Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,6 +18,11 @@ IHostBuilder CreateHostBuilder(string[] args) =>
         {
             services.AddMassTransit(x =>
             {
+                services.AddSingleton<IMessageAuditStore, AuditStore>();
+
+                var serviceProvider = services.BuildServiceProvider();
+                var auditStore = serviceProvider.GetService<IMessageAuditStore>();
+
                 x.AddConsumer<NotifyConsumer>()
                     .Endpoint(e => e.Temporary = true);
 
@@ -38,6 +44,8 @@ IHostBuilder CreateHostBuilder(string[] args) =>
                         h.Password(RabbitMqConnectionSettings.Password);
                     });
                     cfg.ConfigureEndpoints(context);
+                    cfg.ConnectSendAuditObservers(auditStore);
+                    cfg.ConnectConsumeAuditObserver(auditStore);
                 });
 
 
