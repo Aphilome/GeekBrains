@@ -2,7 +2,7 @@
 
 namespace MdaRestaurant.Models;
 
-internal class Restaurant
+public class Restaurant
 {
     private readonly static List<Table> _tables = new();
     private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);

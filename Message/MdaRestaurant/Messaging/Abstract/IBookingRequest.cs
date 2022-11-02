@@ -2,7 +2,7 @@
 
 namespace Restaurant.Messages.Abstract;
 
-public interface IBookingRequest
+public interface IBookingRequest : IWithCreatedDate
 {
     public Guid OrderId { get; }
 
@@ -10,5 +10,5 @@ public interface IBookingRequest
 
     public Dish? PreOrder { get; }
 
-    public DateTime CreationDate { get; }
+    public DateTime CreatedDate { get; }
 }

@@ -8,7 +8,7 @@ using Restaurant.Messages.InMemoryDb;
 
 namespace Restaurant.Booking.Consumers;
 
-internal class RestaurantBookingRequestConsumer : IConsumer<IBookingRequest>
+public class RestaurantBookingRequestConsumer : IConsumer<IBookingRequest>
 {
     private readonly ILogger _logger;
     private readonly MdaRestaurant.Models.Restaurant _restaurant;
