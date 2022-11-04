@@ -47,7 +47,7 @@ public sealed class RestaurantBookingSaga : MassTransitStateMachine<RestaurantBo
                     context.Instance.CorrelationId = context.Data.OrderId;
                     context.Instance.OrderId = context.Data.OrderId;
                     context.Instance.ClientId = context.Data.ClientId;
-                    Console.WriteLine("Saga: " + context.Data.CreationDate);
+                    Console.WriteLine("Saga: " + context.Data.CreatedDate);
                 })
                 .Schedule(BookingExpired,
                     context => new BookingExpire(context.Instance),

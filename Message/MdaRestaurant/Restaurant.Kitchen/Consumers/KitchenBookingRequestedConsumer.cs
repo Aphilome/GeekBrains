@@ -21,7 +21,7 @@ public class KitchenBookingRequestedConsumer : IConsumer<IBookingRequest>
     // Идемпотентный
     public async Task Consume(ConsumeContext<IBookingRequest> context)
     {
-        _logger.LogInformation($"[OrderId: {context.Message.OrderId} CreationDate: {context.Message.CreationDate}]");
+        _logger.LogInformation($"[OrderId: {context.Message.OrderId} CreationDate: {context.Message.CreatedDate}]");
         _logger.LogDebug("Trying time: " + DateTime.Now);
 
         await Task.Delay(5000);

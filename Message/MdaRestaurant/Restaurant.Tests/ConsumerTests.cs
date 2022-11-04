@@ -8,6 +8,7 @@ using Messaging.Abstract;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Restaurant.Booking.Consumers;
+using Restaurant.Kitchen.Consumers;
 using Restaurant.Messages;
 using Restaurant.Messages.Abstract;
 using Restaurant.Messages.Concrete;
@@ -83,6 +84,28 @@ public class ConsumerTests
 
 
         Assert.That(_harness.Published.Select<ITableBooked>()
+            .Any(x => x.Context.Message.OrderId == orderId), Is.True);
+    }
+
+    [Test]
+    public async Task Kitchen_Booking_request_consumer_published_table_booked_message()
+    {
+        var consumer = _harness.GetConsumerHarness<KitchenBookingRequestedConsumer>();
+
+        var orderId = NewId.NextGuid();
+        var bus = _harness.Bus;
+
+        await bus.Publish((IBookingRequest)
+            new BookingRequest(orderId,
+                orderId,
+                null,
+                DateTime.Now));
+
+        Assert.That(consumer.Consumed.Select<IBookingRequest>()
+            .Any(x => x.Context.Message.OrderId == orderId), Is.True);
+        var selected = _harness.Published.Select<IKitchenReady>().FirstOrDefault();
+
+        Assert.That(_harness.Published.Select<IKitchenReady>()
             .Any(x => x.Context.Message.OrderId == orderId), Is.True);
     }
 }

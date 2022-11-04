@@ -36,7 +36,7 @@ public class RestaurantBookingRequestConsumer : IConsumer<IBookingRequest>
             return;
         }
         var requestModel = new BookingRequestModel(context.Message.OrderId, context.Message.ClientId,
-            context.Message.PreOrder, context.Message.CreationDate, context.MessageId.ToString());
+            context.Message.PreOrder, context.Message.CreatedDate, context.MessageId.ToString());
 
         _logger.LogDebug("First time message");
         var resultModel = model?.Update(requestModel, context.MessageId.ToString()) ?? requestModel;

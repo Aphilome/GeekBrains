@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurant.Notification", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurant.Kitchen", "Restaurant.Kitchen\Restaurant.Kitchen.csproj", "{62D5E7CB-0D73-45A5-B544-436B875C4262}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restaurant.Tests", "Restaurant.Tests\Restaurant.Tests.csproj", "{4A896940-5ABF-4596-ACDF-8FB973F4161F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurant.Tests", "Restaurant.Tests\Restaurant.Tests.csproj", "{4A896940-5ABF-4596-ACDF-8FB973F4161F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

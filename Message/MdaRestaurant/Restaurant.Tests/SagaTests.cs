@@ -7,11 +7,6 @@ using Restaurant.Booking.Saga;
 using Restaurant.Messages.Abstract;
 using Restaurant.Messages.Concrete;
 using Restaurant.Messages.InMemoryDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Restaurant.Kitchen.Consumers;
 using Restaurant.Booking.Consumers;
 using Restaurant.Kitchen;
@@ -83,7 +78,7 @@ public class SagaTests
         Assert.That(saga, Is.Not.Null);
         Assert.That(saga.ClientId, Is.EqualTo(clientId));
         Assert.That(await _harness.Published.Any<ITableBooked>());
-        // Assert.That(await _harness.Published.Any<IKitchenReady>());
+        Assert.That(await _harness.Published.Any<IKitchenReady>());
         Assert.That(await _harness.Published.Any<INotify>());
         Assert.That(saga.CurrentState, Is.EqualTo(3));
 
