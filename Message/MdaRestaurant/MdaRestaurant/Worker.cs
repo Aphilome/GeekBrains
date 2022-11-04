@@ -1,5 +1,4 @@
-﻿using Messaging.Concrete;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.Extensions.Hosting;
 using Restaurant.Messages.Concrete;
 using Restaurant.Messages.Abstract;

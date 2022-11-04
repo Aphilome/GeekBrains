@@ -33,8 +33,12 @@ public class BookingRequestModel: IWithCreatedDate
     }
 
     private readonly List<string> _messageIds = new List<string>();
+
     public Guid OrderId { get; private set; }
+    
     public Guid ClientId { get; private set; }
+    
     public Dish? PreOrder { get; private set; }
+    
     public DateTime CreatedDate { get; set; }
 }

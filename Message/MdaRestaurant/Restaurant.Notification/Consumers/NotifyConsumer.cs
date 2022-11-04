@@ -12,7 +12,6 @@ public class NotifyConsumer : IConsumer<INotify>
     private readonly Guid SubscriberId = new Guid("029C20B4-AEEB-4519-B24E-2000843706A2");
     private readonly ILogger _logger;
 
-
     public NotifyConsumer(
         Notifier notifier,
         IMessagesRepository messagesRepository,

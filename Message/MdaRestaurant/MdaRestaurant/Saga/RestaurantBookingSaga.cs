@@ -1,5 +1,4 @@
-﻿using Automatonymous;
-using MassTransit;
+﻿using MassTransit;
 using MdaRestaurant.Models;
 using Messaging.Abstract;
 using Restaurant.Messages.Abstract;
@@ -80,13 +79,18 @@ public sealed class RestaurantBookingSaga : MassTransitStateMachine<RestaurantBo
 
         SetCompletedWhenFinalized();
     }
+
     public State AwaitingBookingApproved { get; private set; }
+
     public Event<IBookingRequest> BookingRequested { get; private set; }
+    
     public Event<ITableBooked> TableBooked { get; private set; }
+    
     public Event<IKitchenReady> KitchenReady { get; private set; }
 
     public Event<Fault<IBookingRequest>> BookingRequestFault { get; private set; }
 
     public Schedule<RestaurantBooking, IBookingExpire> BookingExpired { get; private set; }
+    
     public Event BookingApproved { get; private set; }
 }

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MassTransit;
 using MassTransit.Testing;
 using Messaging.Abstract;
@@ -9,11 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Restaurant.Booking.Consumers;
 using Restaurant.Kitchen.Consumers;
-using Restaurant.Messages;
 using Restaurant.Messages.Abstract;
 using Restaurant.Messages.Concrete;
 using Restaurant.Messages.InMemoryDb;
-
 
 namespace Restaurant.Tests;
 
