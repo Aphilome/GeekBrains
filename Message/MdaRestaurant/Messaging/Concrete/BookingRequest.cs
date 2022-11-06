@@ -10,12 +10,12 @@ public class BookingRequest : IBookingRequest
         OrderId = orderId;
         ClientId = clientId;
         PreOrder = preOrder;
-        CreationDate = creationDate;
+        CreatedDate = creationDate;
     }
 
     public Guid OrderId { get; }
     public Guid ClientId { get; }
     public Dish? PreOrder { get; }
 
-    public DateTime CreationDate { get; }
+    public DateTime CreatedDate { get; set; }
 }
