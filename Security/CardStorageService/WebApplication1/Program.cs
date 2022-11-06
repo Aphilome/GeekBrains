@@ -6,6 +6,7 @@ using NLog.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace CardStorageService
@@ -21,7 +22,15 @@ namespace CardStorageService
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureKestrel(options =>
+                    {
+                        options.Listen(IPAddress.Any, 5001, listenOptions =>
+                        {
+                            listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+                            listenOptions.UseHttps(@"C:\devcert.pfx", "12345");
+                        });
+                    })
+                    .UseStartup<Startup>();
                 }).ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
