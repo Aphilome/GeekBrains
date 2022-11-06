@@ -5,7 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Restaurant.Booking;
 using Restaurant.Booking.Consumers;
+using Restaurant.Booking.Models;
 using Restaurant.Booking.Saga;
+using Restaurant.Messages.InMemoryDb;
 
 CreateHostBuilder(args).Build().Run();
 
@@ -52,6 +54,7 @@ IHostBuilder CreateHostBuilder(string[] args) =>
             services.AddTransient<RestaurantBooking>();
             services.AddTransient<RestaurantBookingSaga>();
             services.AddTransient<MdaRestaurant.Models.Restaurant>();
+            services.AddSingleton<IInMemoryRepository<BookingRequestModel>, InMemoryRepository<BookingRequestModel>>();
 
             services.AddHostedService<Worker>();
         });

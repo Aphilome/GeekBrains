@@ -5,6 +5,7 @@ namespace Restaurant.Kitchen.Consumers;
 
 public class KitchenBookingRequestFaultConsumer : IConsumer<Fault<IBookingRequest>>
 {
+    // Идемпотентный
     public Task Consume(ConsumeContext<Fault<IBookingRequest>> context)
     {
         Console.WriteLine($"[OrderId {context.Message.Message.OrderId}] Cancel in kitchen");

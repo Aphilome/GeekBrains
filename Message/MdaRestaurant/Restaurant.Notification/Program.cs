@@ -3,6 +3,7 @@ using MassTransit;
 using Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Restaurant.Messages.SqlliteDb;
 using Restaurant.Notification;
 using Restaurant.Notification.Consumers;
 
@@ -43,5 +44,6 @@ IHostBuilder CreateHostBuilder(string[] args) =>
 
             });
             services.AddSingleton<Notifier>();
+            services.AddSingleton<IMessagesRepository, MessagesRepository>();
             services.AddMassTransitHostedService(true);
         });
