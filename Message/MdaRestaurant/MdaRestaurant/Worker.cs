@@ -1,6 +1,8 @@
 ﻿using Messaging.Concrete;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
+using Restaurant.Messages.Concrete;
+using Restaurant.Messages.Abstract;
 
 namespace Restaurant.Booking;
 
@@ -21,10 +23,10 @@ internal class Worker : BackgroundService
         {
             await Task.Delay(10000, stoppingToken);
             Console.WriteLine("Hi! Do you want book table?");
-            var result = await _restaurant.BookFreeTableAsync(1);
-            //забронируем с ответом по смс
-            await _bus.Publish(new TableBooked(NewId.NextGuid(), NewId.NextGuid(), result ?? null),
-                context => context.Durable = false, stoppingToken);
+            var dateTime = DateTime.Now;
+            await _bus.Publish(
+                (IBookingRequest)new BookingRequest(NewId.NextGuid(), NewId.NextGuid(), null, dateTime),
+                stoppingToken);
         }
     }
 }

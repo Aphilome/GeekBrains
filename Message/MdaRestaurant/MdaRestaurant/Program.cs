@@ -4,6 +4,8 @@ using Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Restaurant.Booking;
+using Restaurant.Booking.Consumers;
+using Restaurant.Booking.Saga;
 
 CreateHostBuilder(args).Build().Run();
 
@@ -13,28 +15,34 @@ IHostBuilder CreateHostBuilder(string[] args) =>
         {
             services.AddMassTransit(x =>
             {
+                x.AddConsumer<RestaurantBookingRequestConsumer>()
+                            .Endpoint(e => e.Temporary = true);
+
+                x.AddConsumer<BookingRequestFaultConsumer>()
+                    .Endpoint(e => e.Temporary = true);
+
+                x.AddSagaStateMachine<RestaurantBookingSaga, RestaurantBooking>()
+                    .Endpoint(e => e.Temporary = true)
+                    .InMemoryRepository();
+
+                x.AddDelayedMessageScheduler();
+
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.UseMessageRetry(r =>
-                    {
-                        r.Exponential(5,
-                            TimeSpan.FromSeconds(1),
-                            TimeSpan.FromSeconds(100),
-                            TimeSpan.FromSeconds(5));
-                        r.Ignore<StackOverflowException>();
-                        r.Ignore<ArgumentNullException>(x => x.Message.Contains("Consumer"));
-                    });
-
                     cfg.Host(RabbitMqConnectionSettings.HostName, RabbitMqConnectionSettings.Port, RabbitMqConnectionSettings.UserAndVHost, h =>
                     {
                         h.Username(RabbitMqConnectionSettings.UserAndVHost);
                         h.Password(RabbitMqConnectionSettings.Password);
                     });
+                    cfg.UseDelayedMessageScheduler();
+                    cfg.UseInMemoryOutbox();
                     cfg.ConfigureEndpoints(context);
                 });
             });
             services.AddMassTransitHostedService(true);
 
+            services.AddTransient<RestaurantBooking>();
+            services.AddTransient<RestaurantBookingSaga>();
             services.AddTransient< MdaRestaurant.Models.Restaurant>();
 
             services.AddHostedService<Worker>();

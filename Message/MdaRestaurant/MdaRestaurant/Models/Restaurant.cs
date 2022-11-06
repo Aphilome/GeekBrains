@@ -13,7 +13,7 @@ internal class Restaurant
 			_tables.Add(new Table(i));
     }
 
-    public async Task<int?> BookFreeTableAsync(int countOfPersons)
+    public async Task<bool?> BookFreeTableAsync(int countOfPersons)
     {
         Console.WriteLine("Hi! I will check the table and approve booking. You will get notification");
 
@@ -23,8 +23,7 @@ internal class Restaurant
         {
             table = _tables.FirstOrDefault(i => i.SeatsCount > countOfPersons && i.State == Enums.State.Free);
             await Task.Delay(5000); // so slow managers
-            table?.SetState(State.Booked);
-            return table?.Id;
+            return table?.SetState(State.Booked);
         }
         finally
         {
