@@ -7,15 +7,15 @@ public class InMemoryRepository<T> : IInMemoryRepository<T>
     where T : IWithCreatedDate
 {
     private static readonly ConcurrentBag<T> _repo = new();
-    private static System.Timers.Timer aTimer;
+    private static System.Timers.Timer _timer;
 
     public InMemoryRepository()
     {
-        aTimer = new System.Timers.Timer(30 * 1000);
-        aTimer.AutoReset = true;
-        aTimer.Enabled = true;
-        aTimer.Elapsed += async (sender, e) => await HandleTimer();
-        aTimer.Start();
+        _timer = new System.Timers.Timer(30 * 1000);
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+        _timer.Elapsed += async (sender, e) => await HandleTimer();
+        _timer.Start();
     }
 
     public void AddOrUpdate(T entity)

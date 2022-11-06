@@ -28,21 +28,33 @@ public class RestaurantBookingRequestConsumer : IConsumer<IBookingRequest>
     {
         _logger.LogInformation($"[OrderId: {context.Message.OrderId}]");
 
+        if (!IsIdempotentionSuccess(context))
+            return;
+
+        var result = await _restaurant.BookFreeTableAsync(1);
+        await context.Publish<ITableBooked>(new TableBooked(context.Message.OrderId, result ?? false));
+    }
+
+    private bool IsIdempotentionSuccess(ConsumeContext<IBookingRequest> context)
+    {
         var model = _repository.Get().FirstOrDefault(i => i.OrderId == context.Message.OrderId);
 
         if (model is not null && model.CheckMessageId(context.MessageId.ToString()))
         {
             _logger.LogDebug("Second time message");
-            return;
+            return false;
         }
+        SaveIdempotention(context, model);
+        return true;
+    }
+
+    private void SaveIdempotention(ConsumeContext<IBookingRequest> context, BookingRequestModel? model)
+    {
         var requestModel = new BookingRequestModel(context.Message.OrderId, context.Message.ClientId,
             context.Message.PreOrder, context.Message.CreatedDate, context.MessageId.ToString());
 
         _logger.LogDebug("First time message");
         var resultModel = model?.Update(requestModel, context.MessageId.ToString()) ?? requestModel;
         _repository.AddOrUpdate(resultModel);
-        var result = await _restaurant.BookFreeTableAsync(1);
-
-        await context.Publish<ITableBooked>(new TableBooked(context.Message.OrderId, result ?? false));
     }
 }
