@@ -18,12 +18,8 @@ internal class Table
         SeatsCount = rnd.Next(2, 5);
     }
 
-    public bool SetState(State state)
+    public void SetState(State state)
     {
-        if (state == State)
-            return false;
         State = state;
-
-        return true;
     }
 }
