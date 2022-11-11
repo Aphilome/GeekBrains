@@ -1,4 +1,7 @@
-﻿using static ClinicServiceNamespace.ClinicService;
+﻿using ClinicService.Data;
+using ClinicServiceNamespace;
+using Grpc.Core;
+using static ClinicServiceNamespace.ClinicService;
 
 namespace ClinicServiceV2.Services;
 

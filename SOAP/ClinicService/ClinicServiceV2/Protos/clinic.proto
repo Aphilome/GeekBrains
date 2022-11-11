@@ -6,23 +6,56 @@ option csharp_namespace = "ClinicServiceNamespace";
 
 import "google/protobuf/wrappers.proto";
 
-service ClinicService{
 
-	rpc CreateClinet (CreateClientRequest) returns (CreateClientResponse);
-	rpc UpdateClient (UpdateClientRequest) returns (UpdateClientResponse);
-	rpc DeleteClient (DeleteClientRequest) returns (DeleteClientResponse);
-	rpc GetClientById (GetClientByIdRequest) returns (ClientResponse);
-	rpc GetClients (GetClientsRequest) returns (GetClientsResponse);
+// https://learn.microsoft.com/ru-ru/aspnet/core/grpc/json-transcoding?view=aspnetcore-7.0&viewFallbackFrom=aspnetcore-6.0
+// https://github.com/dotnet/aspnetcore/blob/main/src/Grpc/JsonTranscoding/test/testassets/Sandbox/google/api/http.proto
+
+import "google/api/annotations.proto";
+
+package proto;
+
+// Сервис клиники
+service ClinicService{
+    // Добавление клиента
+    rpc CreateClinet (CreateClientRequest) returns (CreateClientResponse);
+
+    // Обновление клиента
+    rpc UpdateClient (UpdateClientRequest) returns (UpdateClientResponse);
+
+    // Удаление клиента
+    rpc DeleteClient (DeleteClientRequest) returns (DeleteClientResponse);
+
+    // Получить клиента по идентификатору
+    rpc GetClientById (GetClientByIdRequest) returns (ClientResponse);
+
+    /*{
+        option (google.api.http) = {
+            post: "/api/clientById",
+            body: "*",
+            response_body: "client"
+        };
+    }*/
+    // Получить список клиентов	
+    rpc GetClients (GetClientsRequest) returns (GetClientsResponse){
+        option (google.api.http) = {
+            get: "/api/clients"
+        };
+    }
 }
 
-
+// Параметры запроса на создание клиента
 message CreateClientRequest {
+        // Документ
         string document = 1;
+        // Фамилия
         string surname = 2;
+        // Имя
         string firstName = 3;
+        // Отчество
         string patronymic = 4;
 }
 
+// Результат создания клиента
 message CreateClientResponse {
 		google.protobuf.Int32Value clientId = 1;
         int32 errCode = 2;
